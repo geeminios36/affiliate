@@ -28,12 +28,26 @@
                         <input type="text" placeholder="{{translate('Name')}}" value="{{ $seller_package->getTranslation('name', $lang) }}" id="name" name="name" class="form-control" required>
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <label class="col-sm-2 col-from-label" for="amount">{{translate('Amount')}}</label>
-                    <div class="col-sm-10">
-                        <input type="number" min="0" step="0.01" placeholder="{{translate('Amount')}}" value="{{ $seller_package->amount }}" id="amount" name="amount" class="form-control" required>
+                        <label class="col-sm-2 col-from-label" for="amount">{{translate('Percent commission')}}</label>
+                      
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text bg-soft-secondary font-weight-medium">%</div>
+                                </div>
+                                <input type="number" min="0" max="100" placeholder="{{translate('Percent commission')}}" id="percent_commission" name="percent_commission" class="form-control" required value="{{ $seller_package->percent_commission }}">
+                            </div>      
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-from-label" for="amount">{{translate('Amount')}}</label>
+                        <div class="col-sm-10">
+                            <input type="number" min="0" step="0.01" placeholder="{{translate('Amount')}}" value="{{ $seller_package->amount }}" id="amount" name="amount" class="form-control" required>
+                        </div>
+                    </div>
+                <!-- 
                 <div class="form-group row">
                     <label class="col-sm-2 col-from-label" for="product_upload">{{translate('Product Upload')}}</label>
                     <div class="col-sm-10">
@@ -51,7 +65,7 @@
                     <div class="col-sm-10">
                         <input type="number" min="0" step="1" placeholder="{{translate('Validity in number of days')}}" value="{{ $seller_package->duration }}" id="duration" name="duration" class="form-control" required>
                     </div>
-                </div>
+                </div> -->
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label" for="signinSrEmail">{{translate('Package Logo')}}</label>
                     <div class="col-md-10">

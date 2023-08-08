@@ -50,7 +50,8 @@
                         <th>{{translate('Name')}}</th>
                         <th data-breakpoints="lg">{{translate('Email Address')}}</th>
                         <th data-breakpoints="lg">{{translate('Phone')}}</th>
-                        <th data-breakpoints="lg">{{translate('Package')}}</th>
+                        <!-- <th data-breakpoints="lg">{{translate('Package')}}</th> -->
+                        <th data-breakpoints="lg">{{translate('Invited By')}}</th>
                         <th data-breakpoints="lg">{{translate('Wallet Balance')}}</th>
                         <th>{{translate('Options')}}</th>
                     </tr>
@@ -73,9 +74,15 @@
                                 <td>@if($customer->user->banned == 1) <i class="fa fa-ban text-danger" aria-hidden="true"></i> @endif {{$customer->user->name}}</td>
                                 <td>{{$customer->user->email}}</td>
                                 <td>{{$customer->user->phone}}</td>
-                                <td>
+                                <!-- <td>
                                     @if ($customer->user->customer_package != null)
                                     {{$customer->user->customer_package->getTranslation('name')}}
+                                    @endif
+                                </td> -->
+                                <td>
+                                    @if(!empty($customer->invitors))
+                                    {{$customer->invitors->name}}<br>
+                                    {{$customer->invitors->email}}
                                     @endif
                                 </td>
                                 <td>{{single_price($customer->user->balance)}}</td>

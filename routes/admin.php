@@ -40,6 +40,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::post('/products/get_products_by_subcategory', 'ProductController@get_products_by_subcategory')->name('products.get_products_by_subcategory');
     Route::post('/bulk-product-delete', 'ProductController@bulk_product_delete')->name('bulk-product-delete');
 
+    Route::resource('config_commission', 'ConfigCommissionController');
 
     Route::resource('sellers', 'SellerController');
     Route::get('sellers_ban/{id}', 'SellerController@ban')->name('sellers.ban');
@@ -248,9 +249,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::get('/customer_packages/edit/{id}', 'CustomerPackageController@edit')->name('customer_packages.edit');
     Route::get('/customer_packages/destroy/{id}', 'CustomerPackageController@destroy')->name('customer_packages.destroy');
 
-    //Classified Products
-    Route::get('/classified_products', 'CustomerProductController@customer_product_index')->name('classified_products');
-    Route::post('/classified_products/published', 'CustomerProductController@updatePublished')->name('classified_products.published');
+    // //Classified Products
+    // Route::get('/classified_products', 'CustomerProductController@customer_product_index')->name('classified_products');
+    // Route::post('/classified_products/published', 'CustomerProductController@updatePublished')->name('classified_products.published');
 
     //Shipping Configuration
     Route::get('/shipping_configuration', 'BusinessSettingsController@shipping_configuration')->name('shipping_configuration.index');

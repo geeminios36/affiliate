@@ -45,10 +45,11 @@ class SellerPackageController extends Controller
     {
         $seller_package = new SellerPackage;
         $seller_package->name = $request->name;
+        $seller_package->percent_commission = $request->percent_commission;
         $seller_package->amount = $request->amount;
-        $seller_package->product_upload = $request->product_upload;
-        $seller_package->digital_product_upload = $request->digital_product_upload;
-        $seller_package->duration = $request->duration;
+        // $seller_package->product_upload = $request->product_upload;
+        // $seller_package->digital_product_upload = $request->digital_product_upload;
+        // $seller_package->duration = $request->duration;
         $seller_package->logo = $request->logo;
         $seller_package->tenacy_id = get_tenacy_id_for_query();
         if($seller_package->save()){
@@ -105,10 +106,11 @@ class SellerPackageController extends Controller
         }
         $seller_package = SellerPackage::where('id', $id)->first();
         $seller_package->name = $request->name;
+        $seller_package->percent_commission = $request->percent_commission;
         $seller_package->amount = $request->amount;
-        $seller_package->product_upload = $request->product_upload;
-        $seller_package->digital_product_upload = $request->digital_product_upload;
-        $seller_package->duration = $request->duration;
+        // $seller_package->product_upload = $request->product_upload;
+        // $seller_package->digital_product_upload = $request->digital_product_upload;
+        // $seller_package->duration = $request->duration;
         $seller_package->logo = $request->logo;
         $seller_package->tenacy_id = get_tenacy_id_for_query();
         if($seller_package->save()){
