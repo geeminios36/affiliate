@@ -335,6 +335,12 @@
             <!-- Customers -->
                 @if(Auth::user()->user_type == 'admin' || in_array('8', json_decode(Auth::user()->staff->role->permissions)))
                     <li class="aiz-side-nav-item">
+                        <a href="{{ route('config_commission.index') }}" class="aiz-side-nav-link">
+                            <i class="las la-dharmachakra aiz-side-nav-icon"></i>
+                            <span class="aiz-side-nav-text">{{translate('Config Commission') }}</span>
+                        </a>
+                    </li>
+                    <li class="aiz-side-nav-item">
                         <a href="#" class="aiz-side-nav-link">
                             <i class="las la-user-friends aiz-side-nav-icon"></i>
                             <span class="aiz-side-nav-text">{{translate('Customers') }}</span>
@@ -346,23 +352,11 @@
                                     <span class="aiz-side-nav-text">{{translate('Customer list') }}</span>
                                 </a>
                             </li>
-                            @if(get_setting('classified_product') == 1)
-                                <li class="aiz-side-nav-item">
-                                    <a href="{{route('classified_products')}}" class="aiz-side-nav-link">
-                                        <span class="aiz-side-nav-text">{{translate('Classified Products')}}</span>
-                                    </a>
-                                </li>
-                                <li class="aiz-side-nav-item">
-                                    <a href="{{ route('customer_packages.index') }}"
-                                       class="aiz-side-nav-link {{ areActiveRoutes(['customer_packages.index', 'customer_packages.create', 'customer_packages.edit'])}}">
-                                        <span class="aiz-side-nav-text">{{translate('Classified Packages') }}</span>
-                                    </a>
-                                </li>
-                            @endif
                         </ul>
                     </li>
                 @endif
 
+            <!-- Sellers --
             <!-- Sellers -->
                 @if((Auth::user()->user_type == 'admin' || in_array('9', json_decode(Auth::user()->staff->role->permissions))) && get_setting('vendor_system_activation') == 1)
                     <li class="aiz-side-nav-item">
@@ -596,7 +590,7 @@
                 @endif
 
             <!-- Affiliate Addon -->
-                @if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated)
+                <!-- @if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated)
                     @if(Auth::user()->user_type == 'admin' || in_array('15', json_decode(Auth::user()->staff->role->permissions)))
                         <li class="aiz-side-nav-item">
                             <a href="#" class="aiz-side-nav-link">
@@ -644,7 +638,7 @@
                             </ul>
                         </li>
                     @endif
-                @endif
+                @endif -->
 
             <!-- Offline Payment Addon-->
                 @if (\App\Addon::where('unique_identifier', 'offline_payment')->first() != null && \App\Addon::where('unique_identifier', 'offline_payment')->first()->activated)

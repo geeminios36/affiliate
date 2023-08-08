@@ -18,12 +18,24 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-sm-2 col-from-label" for="amount">{{translate('Percent commission')}}</label>
+                      
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text bg-soft-secondary font-weight-medium">%</div>
+                                </div>
+                                <input type="number" min="0" max="100" placeholder="{{translate('Percent commission')}}" id="percent_commission" name="percent_commission" class="form-control" required>
+                            </div>      
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-sm-2 col-from-label" for="amount">{{translate('Amount')}}</label>
                         <div class="col-sm-10">
                             <input type="number" min="0" step="0.01" placeholder="{{translate('Amount')}}" id="amount" name="amount" class="form-control" required>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                         <label class="col-sm-2 col-from-label" for="product_upload">{{translate('Product Upload')}}</label>
                         <div class="col-sm-10">
                             <input type="number" min="0" step="1" placeholder="{{translate('Product Upload')}}" id="product_upload" name="product_upload" class="form-control" required>
@@ -40,7 +52,7 @@
                         <div class="col-sm-10">
                             <input type="number" min="0" step="1" placeholder="{{translate('Validity in number of days')}}" id="duration" name="duration" class="form-control" required>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label" for="signinSrEmail">{{translate('Package Logo')}}</label>
                         <div class="col-md-10">

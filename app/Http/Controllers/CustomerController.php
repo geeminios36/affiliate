@@ -17,17 +17,22 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $sort_search = null;
-        $customers = Customer::orderBy('created_at', 'desc');
+        $customers = Customer::orderBy('created_at', 'desc')
+            ->with('invitors');
+
         if ($request->has('search')){
             $sort_search = $request->search;
             $user_ids = User::where('user_type', 'customer')->where(function($user) use ($sort_search){
                 $user->where('name', 'like', '%'.$sort_search.'%')->orWhere('email', 'like', '%'.$sort_search.'%');
             })->pluck('id')->toArray();
-            $customers = $customers->where(function($customer) use ($user_ids){
+            $customers = $customers
+                ->where(function($customer) use ($user_ids){
                 $customer->whereIn('user_id', $user_ids);
             });
         }
+        
         $customers = $customers->paginate(15);
+
         return view('backend.customer.customers.index', compact('customers', 'sort_search'));
     }
 

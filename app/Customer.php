@@ -45,4 +45,7 @@ class Customer extends Model
     public function user(){
     	return $this->belongsTo(user::class);
     }
+    public function invitors(){
+    	return $this->belongsTo(user::class, 'invited_by');
+    }
 }
