@@ -70,7 +70,7 @@
                                         </select>
                                     </div>
                                     <button type="button" class="btn btn-icon btn-soft-dark ml-3" data-toggle="modal"
-                                            title="Chọn khách hàng">
+                                            title="Chọn cộng tác viên">
                                         <i class="las la-users"></i>
                                     </button>
                                 </div>

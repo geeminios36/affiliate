@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
             <div class="card">
               <div class="card-header">
                   <h5 class="mb-0 h6">{{translate('Seller Commission')}}</h5>
@@ -11,7 +11,7 @@
               <div class="card-body">
                   <form class="form-horizontal" action="{{ route('business_settings.vendor_commission.update') }}" method="POST" enctype="multipart/form-data">
                   	@csrf
-                    @if (\App\Addon::where('unique_identifier', 'seller_subscription')->first() != null && \App\Addon::where('unique_identifier', 'seller_subscription')->first()->activated)
+                    <!-- @if (\App\Addon::where('unique_identifier', 'seller_subscription')->first() != null && \App\Addon::where('unique_identifier', 'seller_subscription')->first()->activated)
                         <div class="form-group row">
                             <div class="col-lg-4">
                                 <label class="col-from-label">{{translate('Seller Commission Activation') }}</label>
@@ -26,20 +26,39 @@
                                 </label>
                             </div>
                         </div>
-                    @endif
+                    @endif -->
 
+                    @for ($i = 1 ; $i <= 9; $i ++)
+                    <?php 
+                        $value = json_decode(get_setting('commissions_' . $i));
+                    ?>
                     <div class="form-group row">
-                        <label class="col-md-4 col-from-label">{{translate('Seller Commission')}}</label>
+                        <label class="col-md-4 col-from-label">{{translate('Total Sales')  . ' ' . $i}} </label>
                         <div class="col-md-8">
-                            <input type="hidden" name="types[]" value="vendor_commission">
+                            <input type="hidden" name="commissions_{{$i}}[]" value="total_sales_{{$i}}">
                             <div class="input-group">
-                                <input type="number" lang="en" min="0" step="0.01" value="{{ get_setting('vendor_commission') }}" placeholder="{{translate('Seller Commission')}}" name="vendor_commission" class="form-control">
+                                <input type="number" lang="en" min="0" value="{{ $value[1] }}" placeholder="{{translate('Seller Commission')}}"
+                                 name="commissions_{{$i}}[]" class="form-control">
+                                <div class="input-group-append">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-from-label">{{translate('Seller Commission')  . ' ' . $i}}</label>
+                        <div class="col-md-8">
+                            <input type="hidden" name="commissions_{{$i}}[]" value="vendor_commission_{{$i}}">
+                            <div class="input-group">
+                                <input type="number" lang="en" min="0" max="100" value="{{ $value[3] }}" 
+                                    placeholder="{{translate('Seller Commission')}}"
+                                    name="commissions_{{$i}}[]" class="form-control">
                                 <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    @endfor
                     <div class="form-group mb-0 text-right">
                         <button type="submit" class="btn btn-primary">{{translate('Save')}}</button>
                     </div>
@@ -48,7 +67,7 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <!-- <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0 h6">{{translate('Note')}}</h5>
@@ -64,7 +83,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
 @endsection

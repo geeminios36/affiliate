@@ -420,23 +420,30 @@ class BusinessSettingsController extends Controller
     }
 
     public function vendor_commission_update(Request $request){
-        foreach ($request->types as $key => $type) {
+        for($i = 1; $i <= 9; $i++) {
+            $type = 'commissions_'.$i;
+            $value = $request->input('commissions_'.$i);
+
             $business_settings = BusinessSetting::where('type', $type)->first();
-            if($business_settings!=null){
-                $business_settings->value = $request[$type];
-                $business_settings->tenacy_id = get_tenacy_id_for_query(); $business_settings->save();
-            }
-            else{
+            
+            if (!empty($business_settings)) {
+                $business_settings->value = json_encode($value);
+                $business_settings->tenacy_id = get_tenacy_id_for_query(); 
+                $business_settings->save();
+            } else {
                 $business_settings = new BusinessSetting;
                 $business_settings->type = $type;
-                $business_settings->value = $request[$type];
-                $business_settings->tenacy_id = get_tenacy_id_for_query(); $business_settings->save();
+                $business_settings->value = json_encode($value);
+                $business_settings->tenacy_id = get_tenacy_id_for_query(); 
+                $business_settings->save();
             }
+
         }
 
         Artisan::call('cache:clear');
 
         flash(translate('Seller Commission updated successfully'))->success();
+        
         return back();
     }
 

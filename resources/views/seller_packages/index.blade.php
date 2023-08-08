@@ -22,8 +22,8 @@
                 <div class="card-body text-center">
 					<img alt="{{ translate('Package Logo')}}" src="{{ uploaded_asset($seller_package->logo) }}" class="mw-100 mx-auto mb-4" height="150px">
 					<p class="mb-3 h6 fw-600">{{ $seller_package->getTranslation('name') }}</p>
-                    <p class="h4">{{single_price($seller_package->amount)}}</p>
-                    <p class="fs-15">{{translate('Product Upload') }}:
+                    <p class="h4">{{ single_price($seller_package->amount) }}</p>
+                    <!-- <p class="fs-15">{{translate('Product Upload') }}:
                         <b class="text-bold">{{$seller_package->product_upload}}</b>
                     </p>
 					<p class="fs-15">{{translate('Digital Product Upload') }}:
@@ -31,7 +31,10 @@
                     </p>
 					<p class="fs-15">{{translate('Package Duration') }}:
                         <b class="text-bold">{{$seller_package->duration}} {{translate('days')}}</b>
-                    </p>
+                    </p> -->
+					<p class="fs-15">{{ translate('Percent commission') }}:
+                        <b class="text-bold">{{ $seller_package->percent_commission }} %</b>
+                    </p> 
                     <div class="mar-top">
 						<a href="{{route('seller_packages.edit', ['id'=>$seller_package->id, 'lang'=>env('DEFAULT_LANGUAGE')] )}}" class="btn btn-sm btn-info">{{translate('Edit')}}</a>
                         <a href="#" data-href="{{route('seller_packages.destroy', $seller_package->id)}}" class="btn btn-sm btn-danger confirm-delete">{{translate('Delete')}}</a>
