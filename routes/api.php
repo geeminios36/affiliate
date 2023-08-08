@@ -306,7 +306,7 @@ Route::middleware(['cors'])->group(function () {
         Route::get('flash-deal-products/{id}', 'Api\V2\FlashDealController@products');
     });
 
-    Route::fallback(function() {
+    Route::fallback(function () {
         return response()->json([
             'data' => [],
             'success' => false,
@@ -317,4 +317,5 @@ Route::middleware(['cors'])->group(function () {
     Route::post('/change-password-demo', 'DemoDataControllder@changePasswordDemo')->name('change_admin_password');
     Route::post('/delete-website-by-tenacyid/{tenacy_id}', 'DemoDataControllder@deleteDemo')->name('delete_website_by_teancy_id');
     // Route::get('/add-test', 'DemoDataControllder@add_test')->name('add_test');
+
 });

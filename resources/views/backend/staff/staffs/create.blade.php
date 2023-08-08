@@ -36,6 +36,7 @@
                             <input type="password" placeholder="{{translate('Password')}}" id="password" name="password" class="form-control" required>
                         </div>
                     </div>
+                    @if(isFactoryManager())
                     <div class="form-group row">
                         <label class="col-sm-3 col-from-label" for="name">{{translate('Role')}}</label>
                         <div class="col-sm-9">
@@ -46,6 +47,7 @@
                             </select>
                         </div>
                     </div>
+                    @endif
                     <div class="form-group mb-0 text-right">
                         <button type="submit" class="btn btn-sm btn-primary">{{translate('Save')}}</button>
                     </div>
