@@ -9,6 +9,7 @@ use App\Shop;
 use App\Product;
 use App\Order;
 use App\OrderDetail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\EmailVerificationNotification;
 
@@ -63,38 +64,57 @@ class SellerController extends Controller
      */
     public function store(Request $request)
     {
-        if (User::where('email', $request->email)->first() != null) {
+        $checked = User::where('email', $request->email)
+            ->where('user_type', 'seller')
+            ->first();
+
+        if ($checked) {
             flash(translate('Email already exists!'))->error();
             return back();
         }
+
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->user_type = "seller";
         $user->password = Hash::make($request->password);
         $user->tenacy_id = get_tenacy_id_for_query();
-        if ($user->save()) {
-            if (get_setting('email_verification') != 1) {
-                $user->email_verified_at = date('Y-m-d H:m:s');
-            } else {
-                $user->notify(new EmailVerificationNotification());
+        DB::beginTransaction();
+        try {
+            DB::commit();
+            if ($user->save()) {
+                if (get_setting('email_verification') != 1 || env('APP_ENV') == 'local') {
+                    $user->email_verified_at = date('Y-m-d H:m:s');
+                } else {
+                    $user->notify(new EmailVerificationNotification());
+                }
+
+                $user->tenacy_id = get_tenacy_id_for_query(); $user->save();
+    
+                $seller = new Seller;
+                $seller->user_id = $user->id;
+    
+                if ($seller->save()) {
+                    $shop = new Shop;
+                    $shop->user_id = $user->id;
+                    $shop->slug = 'demo-shop-' . $user->id;
+                    $shop->tenacy_id = get_tenacy_id_for_query(); $shop->save();
+    
+                    flash(translate('Seller has been inserted successfully'))->success();
+                    return redirect()->route('sellers.index');
+                }
             }
-            $user->tenacy_id = get_tenacy_id_for_query(); $user->save();
 
-            $seller = new Seller;
-            $seller->user_id = $user->id;
+        } catch(\Exception $e) {
+            DB::rollBack();
+            dd($e);
+            flash(translate('Something went wrong'))->error();
 
-            if ($seller->save()) {
-                $shop = new Shop;
-                $shop->user_id = $user->id;
-                $shop->slug = 'demo-shop-' . $user->id;
-                $shop->tenacy_id = get_tenacy_id_for_query(); $shop->save();
-
-                flash(translate('Seller has been inserted successfully'))->success();
-                return redirect()->route('sellers.index');
-            }
+            return back();
         }
+
         flash(translate('Something went wrong'))->error();
+
         return back();
     }
 

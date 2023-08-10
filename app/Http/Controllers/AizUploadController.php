@@ -56,7 +56,10 @@ class AizUploadController extends Controller
         return view('uploader.aiz-uploader');
     }
     public function upload(Request $request){
-
+        if(!$request->hasFile('aiz_file')){
+            return '{}';
+        }
+        
         $type = array(
             "jpg"=>"image",
             "jpeg"=>"image",
@@ -94,70 +97,61 @@ class AizUploadController extends Controller
             "xlsx"=>"document"
         );
 
-        if($request->hasFile('aiz_file')){
-            $upload = new Upload;
-            $extension = strtolower($request->file('aiz_file')->getClientOriginalExtension());
+        $upload = new Upload;
+        $extension = strtolower($request->file('aiz_file')->getClientOriginalExtension());
 
-            if(isset($type[$extension])){
-                $upload->file_original_name = null;
-                $arr = explode('.', $request->file('aiz_file')->getClientOriginalName());
-                for($i=0; $i < count($arr)-1; $i++){
-                    if($i == 0){
-                        $upload->file_original_name .= $arr[$i];
-                    }
-                    else{
-                        $upload->file_original_name .= ".".$arr[$i];
-                    }
+        if(isset($type[$extension])){
+            $upload->file_original_name = null;
+            $arr = explode('.', $request->file('aiz_file')->getClientOriginalName());
+            for($i=0; $i < count($arr)-1; $i++){
+                if($i == 0){
+                    $upload->file_original_name .= $arr[$i];
                 }
-
-                $tenacy_id = get_tenacy_id();
-                if (!empty($tenacy_id)) {
-                    $path = $request->file('aiz_file')->store('uploads/'.$tenacy_id, 'local');
-                } else {
-                    $path = $request->file('aiz_file')->store('uploads/all', 'local');
+                else{
+                    $upload->file_original_name .= ".".$arr[$i];
                 }
-
-                $size = $request->file('aiz_file')->getSize();
-
-                if($type[$extension] == 'image' && get_setting('disable_image_optimization') != 1){
-                    try {
-                        $img = Image::make($request->file('aiz_file')->getRealPath())->encode();
-                        $height = $img->height();
-                        $width = $img->width();
-                        if($width > $height && $width > 1500){
-                            $img->resize(1500, null, function ($constraint) {
-                                $constraint->aspectRatio();
-                            });
-                        }elseif ($height > 1500) {
-                            $img->resize(null, 800, function ($constraint) {
-                                $constraint->aspectRatio();
-                            });
-                        }
-                        $img->save(base_path('public/').$path);
-                        clearstatcache();
-                        $size = $img->filesize();
-
-                    } catch (\Exception $e) {
-                        //dd($e);
-                    }
-                }
-
-                if (env('FILESYSTEM_DRIVER') == 's3') {
-                    Storage::disk('wasabi')->put($path, file_get_contents(base_path('public/').$path));
-                    // Set the visibility of file to public
-                    Storage::disk('wasabi')->setVisibility($path, 'public');
-                    unlink(base_path('public/').$path);
-                    //doc: https://github.com/ProbablyRational/wasabi-storage
-                }
-
-                $upload->extension = $extension;
-                $upload->file_name = $path;
-                $upload->user_id = Auth::user()->id;
-                $upload->type = $type[$upload->extension];
-                $upload->file_size = $size;
-                $upload->tenacy_id = get_tenacy_id_for_query(); $upload->save();
             }
-            return '{}';
+
+            $tenacy_id = get_tenacy_id();
+            if (!empty($tenacy_id)) {
+                $path = $request->file('aiz_file')->store('uploads/'.$tenacy_id, 'local');
+            } else {
+                $path = $request->file('aiz_file')->store('uploads/all', 'local');
+            }
+
+            $size = $request->file('aiz_file')->getSize();
+
+            if($type[$extension] == 'image' && get_setting('disable_image_optimization') != 1){
+                try {
+                    $img = Image::make($request->file('aiz_file')->getRealPath())->encode();
+                    $height = $img->height();
+                    $width = $img->width();
+                    if($width > $height && $width > 1500){
+                        $img->resize(1500, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                    }elseif ($height > 1500) {
+                        $img->resize(null, 800, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                    }
+                    $img->save(base_path('public/').$path);
+                    clearstatcache();
+                    $size = $img->filesize();
+
+                } catch (\Exception $e) {
+                }
+            }
+
+            file_get_contents(base_path('public/').$path);
+
+            $upload->extension = $extension;
+            $upload->file_name = $path;
+            $upload->user_id = Auth::user()->id;
+            $upload->type = $type[$upload->extension];
+            $upload->file_size = $size;
+            $upload->tenacy_id = get_tenacy_id_for_query();
+            $upload->save();
         }
     }
 
