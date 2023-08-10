@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Wallet extends Model
 {
+    protected $fillable = [
+        'user_id',
+    ];
+
     /**
      * The "booting" method of the model.
      *
@@ -40,5 +44,5 @@ class Wallet extends Model
     public function user(){
     	return $this->belongsTo(User::class);
     }
-    
+
 }

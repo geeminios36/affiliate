@@ -9,12 +9,15 @@ use App\BusinessSetting;
 use App\OtpConfiguration;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\OTPVerificationController;
+use App\Wallet;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Cookie;
+use Illuminate\Support\Str;
 use Session;
 use Nexmo;
 use Twilio\Rest\Client;
@@ -82,7 +85,7 @@ class RegisterController extends Controller
                     'email' => $data['email'],
                     'password' => Hash::make($data['password']),
                 ]);
-    
+
                 $customer = new Customer;
                 $customer->user_id = $user->id;
                 $customer->tenacy_id = get_tenacy_id_for_query(); $customer->save();
@@ -95,26 +98,26 @@ class RegisterController extends Controller
                         'password' => Hash::make($data['password']),
                         'verification_code' => rand(100000, 999999)
                     ]);
-    
+
                     $customer = new Customer;
                     $customer->user_id = $user->id;
                     $customer->tenacy_id = get_tenacy_id_for_query(); $customer->save();
-    
+
                     $otpController = new OTPVerificationController;
                     $otpController->send_code($user);
                 }
             }
-            
+
             if(session('temp_user_id') != null){
                 Cart::where('temp_user_id', session('temp_user_id'))
-                        ->update([
-                            'user_id' => $user->id,
-                            'temp_user_id' => null
-                ]);
-    
+                    ->update([
+                        'user_id' => $user->id,
+                        'temp_user_id' => null
+                    ]);
+
                 Session::forget('temp_user_id');
             }
-    
+
             if(Cookie::has('referral_code')){
                 $referral_code = Cookie::get('referral_code');
                 $referred_by_user = User::where('referral_code', $referral_code)->first();
@@ -124,18 +127,71 @@ class RegisterController extends Controller
                 }
             }
             DB::commit();
-    
+
             return $user;
         } catch (Exception $e) {
             DB::rollBack();
             flash(translate($e->getMessage()));
             return back();
         }
-        
+
     }
 
-    public function register(Request $request)
+    public function register(Request $request, $type, $invitedBy = 1 )
     {
+        // fake register
+        if ($type = 'customer') {
+            //http://127.0.0.1:8000/register/customer
+            $input = new \stdClass();
+            $input->email = Str::random(10).'@mail.com';
+            $input->user_type = $type;
+            $input->password = Hash::make('12345678');
+            $input->referral_code = strtoupper(Str::random(6));
+            $input->email_verified_at = Carbon::now()->format('Y-m-d H:i:s');
+            $invitor = User::find($invitedBy);
+            if ($invitor) {
+                $user = User::create((array) $input);
+                Customer::create([
+                    'user_id' => $user->id,
+                    'bank_name' => 'momo',
+                    'bank_acc_no' => '0945151206',
+                    'bank_acc_name' => 'Tong Hai Nam',
+                    'invited_by' => $invitedBy,
+                ]);
+                Wallet::create([
+                    'user_id' => $user->id,
+                    'type' => 1,
+                ]);
+
+                return ;
+            }
+        }
+        // end fake register
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $input = $request->all();
+
         DB::beginTransaction();
         try {
             if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
@@ -148,13 +204,13 @@ class RegisterController extends Controller
                 flash(translate('Phone already exists.'));
                 return back();
             }
-    
-            $this->validator($request->all())->validate();
-    
-            $user = $this->create($request->all());
-    
+
+            $this->validator($input)->validate();
+
+            $user = $this->create($input);
+
             $this->guard()->login($user);
-    
+
             if($user->email != null){
                 if(BusinessSetting::where('type', 'email_verification')->first()->value != 1){
                     $user->email_verified_at = date('Y-m-d H:m:s');
@@ -168,7 +224,7 @@ class RegisterController extends Controller
             }
 
             DB::commit();
-    
+
             return $this->registered($request, $user)
                 ?: redirect($this->redirectPath());
         }  catch (Exception $e) {
@@ -176,7 +232,7 @@ class RegisterController extends Controller
             flash(translate($e->getMessage()));
             return back();
         }
-        
+
     }
 
     protected function registered(Request $request, $user)

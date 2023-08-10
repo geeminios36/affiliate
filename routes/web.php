@@ -58,6 +58,12 @@ Route::post('/users/login/cart', 'HomeController@cart_login')->name('cart.login.
 
 //Home Page
 Route::get('/', 'HomeController@index')->name('home');
+
+
+Route::get('/register_seller', 'HomeController@registerSeller')->name('home.register_seller');
+
+
+
 Route::post('/home/section/featured', 'HomeController@load_featured_section')->name('home.section.featured');
 Route::post('/home/section/best_selling', 'HomeController@load_best_selling_section')->name('home.section.best_selling');
 Route::post('/home/section/home_categories', 'HomeController@load_home_categories_section')->name('home.section.home_categories');
@@ -334,3 +340,5 @@ Route::get('/mobile-page/{slug}', 'PageController@mobile_custom_page')->name('mo
 
 //Custom page
 Route::get('/{slug}', 'PageController@show_custom_page')->name('custom-pages.show_custom_page');
+
+Route::get('/register/{type}/{invited_by?}', 'Auth\RegisterController@register')->name('register');
