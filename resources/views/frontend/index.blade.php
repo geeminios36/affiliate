@@ -435,12 +435,12 @@
                 AIZ.plugins.slickCarousel();
             });
 
-            // @if (get_setting('vendor_system_activation') == 1)
+            @if (get_setting('vendor_system_activation') == 1)
             // $.post('{{ route('home.section.best_sellers') }}', {_token:'{{ csrf_token() }}'}, function(data){
             //     $('#section_best_sellers').html(data);
             //     AIZ.plugins.slickCarousel();
             // });
-            // @endif
+            @endif
         });
     </script>
 @endsection
