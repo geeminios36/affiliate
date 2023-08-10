@@ -73,9 +73,7 @@ if (!function_exists('sendSMS')) {
                     )
                 );
             } catch (\Exception $e) {
-
             }
-
         } elseif (OtpConfiguration::where('type', 'ssl_wireless')->first()->value == 1) {
             $token = env("SSL_SMS_API_TOKEN"); //put ssl provided api_token here
             $sid = env("SSL_SMS_SID"); // put ssl provided sid here
@@ -181,7 +179,6 @@ if (!function_exists('areActiveRoutes')) {
         foreach ($routes as $route) {
             if (Route::currentRouteName() == $route) return $output;
         }
-
     }
 }
 
@@ -192,7 +189,6 @@ if (!function_exists('areActiveRoutesHome')) {
         foreach ($routes as $route) {
             if (Route::currentRouteName() == $route) return $output;
         }
-
     }
 }
 
@@ -325,7 +321,6 @@ if (!function_exists('format_price')) {
             return $fomated_price . ' ' . currency_symbol();
         }
         return $fomated_price . currency_symbol();
-
     }
 }
 
@@ -398,8 +393,10 @@ if (!function_exists('home_discounted_price')) {
 
         if ($product->discount_start_date == null) {
             $discount_applicable = true;
-        } elseif (strtotime(date('d-m-Y H:i:s')) >= $product->discount_start_date &&
-            strtotime(date('d-m-Y H:i:s')) <= $product->discount_end_date) {
+        } elseif (
+            strtotime(date('d-m-Y H:i:s')) >= $product->discount_start_date &&
+            strtotime(date('d-m-Y H:i:s')) <= $product->discount_end_date
+        ) {
             $discount_applicable = true;
         }
 
@@ -483,8 +480,10 @@ if (!function_exists('home_discounted_base_price_by_id')) {
 
         if ($product->discount_start_date == null) {
             $discount_applicable = true;
-        } elseif (strtotime(date('d-m-Y H:i:s')) >= $product->discount_start_date &&
-            strtotime(date('d-m-Y H:i:s')) <= $product->discount_end_date) {
+        } elseif (
+            strtotime(date('d-m-Y H:i:s')) >= $product->discount_start_date &&
+            strtotime(date('d-m-Y H:i:s')) <= $product->discount_end_date
+        ) {
             $discount_applicable = true;
         }
 
@@ -519,8 +518,10 @@ if (!function_exists('home_discounted_base_price')) {
 
         if ($product->discount_start_date == null) {
             $discount_applicable = true;
-        } elseif (strtotime(date('d-m-Y H:i:s')) >= $product->discount_start_date &&
-            strtotime(date('d-m-Y H:i:s')) <= $product->discount_end_date) {
+        } elseif (
+            strtotime(date('d-m-Y H:i:s')) >= $product->discount_start_date &&
+            strtotime(date('d-m-Y H:i:s')) <= $product->discount_end_date
+        ) {
             $discount_applicable = true;
         }
 
@@ -593,11 +594,11 @@ if (!function_exists('homeBasePrice')) {
         }
 
         $price += $tax;
-//        if ($product->tax_type == 'percent') {
-//            $price += ($price * $product->tax) / 100;
-//        } elseif ($product->tax_type == 'amount') {
-//            $price += $product->tax;
-//        }
+        //        if ($product->tax_type == 'percent') {
+        //            $price += ($price * $product->tax) / 100;
+        //        } elseif ($product->tax_type == 'amount') {
+        //            $price += $product->tax;
+        //        }
         return $price;
     }
 }
@@ -612,8 +613,10 @@ if (!function_exists('homeDiscountedBasePrice')) {
 
         if ($product->discount_start_date == null) {
             $discount_applicable = true;
-        } elseif (strtotime(date('d-m-Y H:i:s')) >= $product->discount_start_date &&
-            strtotime(date('d-m-Y H:i:s')) <= $product->discount_end_date) {
+        } elseif (
+            strtotime(date('d-m-Y H:i:s')) >= $product->discount_start_date &&
+            strtotime(date('d-m-Y H:i:s')) <= $product->discount_end_date
+        ) {
             $discount_applicable = true;
         }
 
@@ -655,14 +658,14 @@ if (!function_exists('homePrice')) {
             }
         }
 
-//        if ($product->tax_type == 'percent') {
-//            $lowest_price += ($lowest_price*$product->tax)/100;
-//            $highest_price += ($highest_price*$product->tax)/100;
-//        }
-//        elseif ($product->tax_type == 'amount') {
-//            $lowest_price += $product->tax;
-//            $highest_price += $product->tax;
-//        }
+        //        if ($product->tax_type == 'percent') {
+        //            $lowest_price += ($lowest_price*$product->tax)/100;
+        //            $highest_price += ($highest_price*$product->tax)/100;
+        //        }
+        //        elseif ($product->tax_type == 'amount') {
+        //            $lowest_price += $product->tax;
+        //            $highest_price += $product->tax;
+        //        }
         foreach ($product->taxes as $product_tax) {
             if ($product_tax->tax_type == 'percent') {
                 $lowest_price += ($lowest_price * $product_tax->tax) / 100;
@@ -701,8 +704,10 @@ if (!function_exists('homeDiscountedPrice')) {
 
         if ($product->discount_start_date == null) {
             $discount_applicable = true;
-        } elseif (strtotime(date('d-m-Y H:i:s')) >= $product->discount_start_date &&
-            strtotime(date('d-m-Y H:i:s')) <= $product->discount_end_date) {
+        } elseif (
+            strtotime(date('d-m-Y H:i:s')) >= $product->discount_start_date &&
+            strtotime(date('d-m-Y H:i:s')) <= $product->discount_end_date
+        ) {
             $discount_applicable = true;
         }
 
@@ -1040,6 +1045,27 @@ if (!function_exists('isCustomer')) {
     }
 }
 
+if (!function_exists('isFactoryEmployee')) {
+    function isFactoryEmployee()
+    {
+        if (Auth::check() && (Auth::user()->user_type == 'staff' && Auth::user()->staff->role->name != 'Factory employee')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+if (!function_exists('isFactoryManager')) {
+    function isFactoryManager()
+    {
+        if (Auth::check() && (Auth::user()->user_type == 'staff' && Auth::user()->staff->role->name != 'Factory manager')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
 if (!function_exists('formatBytes')) {
     function formatBytes($bytes, $precision = 2)
     {
@@ -1091,7 +1117,6 @@ if (!function_exists('get_images_path')) {
         }
 
         return $paths;
-
     }
 }
 
@@ -1117,9 +1142,11 @@ if (!function_exists('checkout_done')) {
             }
         }
         $vendor_commission_activation = true;
-        if (\App\Addon::where('unique_identifier', 'seller_subscription')->first() != null
+        if (
+            \App\Addon::where('unique_identifier', 'seller_subscription')->first() != null
             && \App\Addon::where('unique_identifier', 'seller_subscription')->first()->activated
-            && !get_setting('vendor_commission_activation')) {
+            && !get_setting('vendor_commission_activation')
+        ) {
             $vendor_commission_activation = false;
         }
 
@@ -1186,7 +1213,6 @@ if (!function_exists('wallet_payment_done')) {
         $wallet->payment_method = $payment_method;
         $wallet->payment_details = $payment_details;
         $wallet->save();
-
     }
 }
 
@@ -1201,7 +1227,6 @@ if (!function_exists('purchase_payment_done')) {
         $user->save();
 
         return 'success';
-
     }
 }
 
@@ -1210,9 +1235,11 @@ if (!function_exists('commission_calculation')) {
     function commission_calculation($order)
     {
         $vendor_commission_activation = true;
-        if (\App\Addon::where('unique_identifier', 'seller_subscription')->first() != null
+        if (
+            \App\Addon::where('unique_identifier', 'seller_subscription')->first() != null
             && \App\Addon::where('unique_identifier', 'seller_subscription')->first()->activated
-            && !get_setting('vendor_commission_activation')) {
+            && !get_setting('vendor_commission_activation')
+        ) {
             $vendor_commission_activation = false;
         }
 
@@ -1394,7 +1421,8 @@ function stripVN($str)
     return $str;
 }
 
-function cleanString($text) {
+function cleanString($text)
+{
     $utf8 = array(
         '/[áàâãªä]/u'   =>   'a',
         '/[ÁÀÂÃÄ]/u'    =>   'A',
@@ -1418,7 +1446,8 @@ function cleanString($text) {
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
 }
 
-function generateRandomString($length = 10) {
+function generateRandomString($length = 10)
+{
     $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -1428,11 +1457,12 @@ function generateRandomString($length = 10) {
     return $randomString;
 }
 
-function format_date($date){
+function format_date($date)
+{
     return date('d/m/Y', strtotime($date));
 }
 
-function format_date_time($date){
+function format_date_time($date)
+{
     return date('H:i d/m/Y', strtotime($date));
 }
-?>

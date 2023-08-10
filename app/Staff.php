@@ -12,6 +12,8 @@ class Staff extends Model
      *
      * @return void
      */
+    protected $guarded = [];
+    protected $fillable = ['user_id', 'role_id', 'tenacy_id'];
     protected static function boot()
     {
         parent::boot();
@@ -37,20 +39,19 @@ class Staff extends Model
 
         return $query;
     }
-    
+
     public function user()
     {
-    return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function role()
     {
-    return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class);
     }
 
     public function pick_up_point()
     {
-    	return $this->hasOne(PickupPoint::class);
+        return $this->hasOne(PickupPoint::class);
     }
-
 }

@@ -8,7 +8,7 @@ use App;
 
 class Role extends Model
 {
-   /**
+    /**
      * The "booting" method of the model.
      *
      * @return void
@@ -23,7 +23,6 @@ class Role extends Model
         static::saving(function ($model) {
             $model->tenacy_id = get_tenacy_id_for_query();
         });
-        
     }
 
     /**
@@ -38,15 +37,22 @@ class Role extends Model
 
         return $query;
     }
-    
-    
-    public function getTranslation($field = '', $lang = false){
+
+
+    public function getTranslation($field = '', $lang = false)
+    {
         $lang = $lang == false ? App::getLocale() : $lang;
         $role_translation = $this->hasMany(RoleTranslation::class)->where('lang', $lang)->first();
         return $role_translation != null ? $role_translation->$field : $this->$field;
     }
 
-    public function role_translations(){
-      return $this->hasMany(RoleTranslation::class);
+    public function role_translations()
+    {
+        return $this->hasMany(RoleTranslation::class);
     }
+
+    // public function users()
+    // {
+    //     return $this->hasMany(User::class, 'foreign_key', 'id');
+    // }
 }
