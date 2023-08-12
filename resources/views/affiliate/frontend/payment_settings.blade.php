@@ -25,17 +25,22 @@
                                 <div class="form-group row">
                                     <label class="col-md-2 col-form-label">{{translate('Paypal Email')}}</label>
                                     <div class="col-md-10">
-                                        <input type="email" class="form-control" placeholder="{{translate('Paypal Email')}}" name="paypal_email" value="{{ $affiliate_user->paypal_email }}">
+                                        <input type="email" class="form-control"
+                                               placeholder="{{translate('Paypal Email')}}" name="paypal_email"
+                                               value="{{ $affiliate_user->paypal_email }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-2 col-form-label">{{translate('Bank Informations')}}</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control" placeholder="{{translate('Acc. No, Bank Name etc')}}" name="bank_information" value="{{ $affiliate_user->bank_information }}">
+                                        <input type="text" class="form-control"
+                                               placeholder="{{translate('Acc. No, Bank Name etc')}}"
+                                               name="bank_information" value="{{ $affiliate_user->bank_information }}">
                                     </div>
                                 </div>
                                 <div class="form-group mb-0 text-right">
-                                    <button type="submit" class="btn btn-primary">{{translate('Update Payment Settings')}}</button>
+                                    <button type="submit"
+                                            class="btn btn-primary">{{translate('Update Payment Settings')}}</button>
                                 </div>
                             </form>
                         </div>

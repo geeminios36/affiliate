@@ -1,15 +1,33 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-<section class="text-center py-6">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-6 mx-auto">
-				<img src="{{ static_asset('assets/img/404.svg') }}" class="mw-100 mx-auto mb-5" height="300">
-			    <h1 class="fw-700">{{translate('Page Not Found!') }}</h1>
-			    <p class="fs-16 opacity-60">{{translate('The page you are looking for has not been found on our server.') }}</p>
-			</div>
-		</div>
+    <style>
+        .inline-YTPlayer {
+            display: none;
+        }
+    </style>
+    <div class="site-wrapper-reveal border-bottom">
+        <div class="error-page-area section-space--ptb_90">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="error-page-content text-center section-space--ptb_90">
+                            <i class="icon icon-confused"></i>
+                            <h1 class="mb-20">ohh! page not found</h1>
+                            <p class="description">It seems we can't find what you're looking for. Perhaps searching can
+                                help or go back to <a href="/">Homepage</a></p>
+
+                            <div class="search-page-box mt-40">
+                                <form action="#" class="pages-search">
+                                    <input class="input-box" type="text" placeholder="Search …">
+                                    <button class="submit-btn"><i class="icon-magnifier"></i></button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</section>
 @endsection

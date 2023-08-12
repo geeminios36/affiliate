@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Blog;
 use App\Customer;
 use App\SellerPackage;
 use App\Wallet;
@@ -43,6 +44,7 @@ class HomeController extends Controller
         if(Auth::check()){
             return redirect()->route('home');
         }
+
         return view('frontend.user_login');
     }
 
@@ -237,7 +239,25 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('frontend.index');
+        $blogs = Blog::orderBy('created_at', 'desc')->paginate(3);
+        $categories = Category::where('parent_id', 0)
+            ->where('enabled', 1)
+            ->with(['products' => function ($query) {
+                $query->limit(6)
+                    ->select('id', 'name', 'category_id', 'thumbnail_img', 'photos', 'unit_price', 'slug')
+                    ->with('productStocks');
+            }])
+            ->get();
+
+        $allProducts = Product::where('published', 1)
+            ->where('featured', '1')->limit(6)
+            ->get();
+
+        return view('frontend.index', compact(
+            'blogs',
+            'categories',
+            'allProducts'
+        ));
     }
 
     public function flash_deal_details($slug)

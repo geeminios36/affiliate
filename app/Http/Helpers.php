@@ -888,7 +888,7 @@ if (!function_exists('uploaded_asset')) {
                 return my_asset($asset->file_name);
             }
         }
-        return null;
+        return 'assets/frontend/images/product/1_1-300x300.webp';
     }
 }
 
