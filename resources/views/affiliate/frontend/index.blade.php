@@ -14,34 +14,41 @@
                         </div>
                     </div>
                     <div class="row gutters-10">
-                        <div class="col-md-4 mx-auto mb-3" >
-                          <div class="bg-grad-1 text-white rounded-lg overflow-hidden">
-                            <span class="size-30px rounded-circle mx-auto bg-soft-primary d-flex align-items-center justify-content-center mt-3">
+                        <div class="col-md-4 mx-auto mb-3">
+                            <div class="bg-grad-1 text-white rounded-lg overflow-hidden">
+                            <span
+                                class="size-30px rounded-circle mx-auto bg-soft-primary d-flex align-items-center justify-content-center mt-3">
                                 <i class="las la-dollar-sign la-2x text-white"></i>
                             </span>
-                            <div class="px-3 pt-3 pb-3">
-                                <div class="h4 fw-700 text-center">{{ single_price(Auth::user()->affiliate_user->balance) }}</div>
-                                <div class="opacity-50 text-center">{{translate('Affiliate Balance') }}</div>
+                                <div class="px-3 pt-3 pb-3">
+                                    <div
+                                        class="h4 fw-700 text-center">{{ single_price(Auth::user()->affiliate_user->balance) }}</div>
+                                    <div class="opacity-50 text-center">{{translate('Affiliate Balance') }}</div>
+                                </div>
                             </div>
-                          </div>
                         </div>
-                        <div class="col-md-4 mx-auto mb-3" >
+                        <div class="col-md-4 mx-auto mb-3">
                             <a href="{{ route('affiliate.payment_settings') }}">
-                                <div class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition">
-                                    <span class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
+                                <div
+                                    class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition">
+                                    <span
+                                        class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
                                         <i class="las la-dharmachakra la-3x text-white"></i>
                                     </span>
                                     <div class="fs-18 text-primary">{{translate('Configure Payout') }}</div>
                                 </div>
                             </a>
                         </div>
-                        <div class="col-md-4 mx-auto mb-3" >
-                          <div class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition" onclick="show_affiliate_withdraw_modal()">
-                              <span class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
+                        <div class="col-md-4 mx-auto mb-3">
+                            <div
+                                class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition"
+                                onclick="show_affiliate_withdraw_modal()">
+                              <span
+                                  class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
                                   <i class="las la-plus la-3x text-white"></i>
                               </span>
-                              <div class="fs-18 text-primary">{{  translate('Affiliate Withdraw Request') }}</div>
-                          </div>
+                                <div class="fs-18 text-primary">{{  translate('Affiliate Withdraw Request') }}</div>
+                            </div>
                         </div>
                     </div>
 
@@ -59,16 +66,19 @@
                                 <div class="card">
                                     <div class="form-box-content p-3">
                                         <div class="form-group">
-                                            <textarea id="referral_code_url" class="form-control" readonly type="text" >{{$referral_code_url}}</textarea>
+                                            <textarea id="referral_code_url" class="form-control" readonly
+                                                      type="text">{{$referral_code_url}}</textarea>
                                         </div>
-                                        <button type=button id="ref-cpurl-btn" class="btn btn-primary float-right" data-attrcpy="{{translate('Copied')}}" onclick="copyToClipboard('url')" >{{translate('Copy Url')}}</button>
+                                        <button type=button id="ref-cpurl-btn" class="btn btn-primary float-right"
+                                                data-attrcpy="{{translate('Copied')}}"
+                                                onclick="copyToClipboard('url')">{{translate('Copy Url')}}</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endif
                     <br>
-                    
+
                     <div class="card">
                         <form class="" id="sort_blogs" action="" method="GET">
                             <div class="card-header">
@@ -78,7 +88,8 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group mb-0">
-                                        <select class="form-control aiz-selectpicker" name="type" data-live-search="true">
+                                        <select class="form-control aiz-selectpicker" name="type"
+                                                data-live-search="true">
                                             <option value="">Choose</option>
                                             <option value="Today" @if($type == 'Today') selected @endif>Today</option>
                                             <option value="7" @if($type == '7') selected @endif>Last 7 Days</option>
@@ -91,17 +102,19 @@
                                 </div>
                             </div>
                         </form>
-                        
+
                         <div class="card-body">
                             <div class="row gutters-10">
                                 <div class="col-md-3 mx-auto mb-3">
                                     <a href="#">
-                                        <div class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition">
-                                            <span class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
+                                        <div
+                                            class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition">
+                                            <span
+                                                class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
                                                 <span class="la-3x text-white">
                                                     @if($affliate_stats->count_click)
                                                         {{ $affliate_stats->count_click }}
-                                                    @else 
+                                                    @else
                                                         0
                                                     @endif
                                                 </span>
@@ -110,14 +123,16 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-md-3 mx-auto mb-3" >
+                                <div class="col-md-3 mx-auto mb-3">
                                     <a href="#">
-                                        <div class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition">
-                                            <span class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
+                                        <div
+                                            class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition">
+                                            <span
+                                                class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
                                                 <span class="la-3x text-white">
                                                     @if($affliate_stats->count_item)
                                                         {{ $affliate_stats->count_item }}
-                                                    @else 
+                                                    @else
                                                         0
                                                     @endif
                                                 </span>
@@ -126,14 +141,16 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-md-3 mx-auto mb-3" >
+                                <div class="col-md-3 mx-auto mb-3">
                                     <a href="#">
-                                        <div class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition">
-                                            <span class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
+                                        <div
+                                            class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition">
+                                            <span
+                                                class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
                                                 <span class="la-3x text-white">
                                                     @if($affliate_stats->count_delivered)
                                                         {{ $affliate_stats->count_delivered }}
-                                                    @else 
+                                                    @else
                                                         0
                                                     @endif
                                                 </span>
@@ -142,14 +159,16 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-md-3 mx-auto mb-3" >
+                                <div class="col-md-3 mx-auto mb-3">
                                     <a href="#">
-                                        <div class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition">
-                                            <span class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
+                                        <div
+                                            class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition">
+                                            <span
+                                                class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
                                                 <span class="la-3x text-white">
                                                     @if($affliate_stats->count_cancel)
                                                         {{ $affliate_stats->count_cancel }}
-                                                    @else 
+                                                    @else
                                                         0
                                                     @endif
                                                 </span>
@@ -161,7 +180,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card">
                         <div class="card-header">
                             <h5 class="mb-0 h6">{{translate('Affiliate Earning History')}}</h5>
@@ -296,7 +315,8 @@
 
 @section('modal')
 
-    <div class="modal fade" id="affiliate_withdraw_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="affiliate_withdraw_modal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -312,11 +332,14 @@
                                 <label>{{translate('Amount')}} <span class="text-danger">*</span></label>
                             </div>
                             <div class="col-md-9">
-                                <input type="number" class="form-control mb-3" name="amount" min="1" max="{{ Auth::user()->affiliate_user->balance }}" placeholder="{{translate('Amount')}}" required>
+                                <input type="number" class="form-control mb-3" name="amount" min="1"
+                                       max="{{ Auth::user()->affiliate_user->balance }}"
+                                       placeholder="{{translate('Amount')}}" required>
                             </div>
                         </div>
                         <div class="form-group text-right">
-                            <button type="submit" class="btn btn-sm btn-primary transition-3d-hover mr-1">{{translate('Confirm')}}</button>
+                            <button type="submit"
+                                    class="btn btn-sm btn-primary transition-3d-hover mr-1">{{translate('Confirm')}}</button>
                         </div>
                     </div>
                 </form>
@@ -328,7 +351,7 @@
 
 @section('script')
     <script>
-        function copyToClipboard(btn){
+        function copyToClipboard(btn) {
             // var el_code = document.getElementById('referral_code');
             var el_url = document.getElementById('referral_code_url');
             // var c_b = document.getElementById('ref-cp-btn');
@@ -342,16 +365,16 @@
             //     }
             // }
 
-            if(btn == 'url'){
-                if(el_url != null && c_u_b != null){
+            if (btn == 'url') {
+                if (el_url != null && c_u_b != null) {
                     el_url.select();
                     document.execCommand('copy');
-                    c_u_b .innerHTML  = c_u_b.dataset.attrcpy;
+                    c_u_b.innerHTML = c_u_b.dataset.attrcpy;
                 }
             }
         }
 
-        function show_affiliate_withdraw_modal(){
+        function show_affiliate_withdraw_modal() {
             $('#affiliate_withdraw_modal').modal('show');
         }
     </script>

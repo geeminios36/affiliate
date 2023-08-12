@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Blog;
+use App\Customer;
+use App\SellerPackage;
+use App\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Mockery\Exception;
 use Session;
 use Auth;
 use Hash;
@@ -38,6 +44,7 @@ class HomeController extends Controller
         if(Auth::check()){
             return redirect()->route('home');
         }
+
         return view('frontend.user_login');
     }
 
@@ -232,7 +239,25 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('frontend.index');
+        $blogs = Blog::orderBy('created_at', 'desc')->paginate(3);
+        $categories = Category::where('parent_id', 0)
+            ->where('enabled', 1)
+            ->with(['products' => function ($query) {
+                $query->limit(6)
+                    ->select('id', 'name', 'category_id', 'thumbnail_img', 'photos', 'unit_price', 'slug')
+                    ->with('productStocks');
+            }])
+            ->get();
+
+        $allProducts = Product::where('published', 1)
+            ->where('featured', '1')->limit(6)
+            ->get();
+
+        return view('frontend.index', compact(
+            'blogs',
+            'categories',
+            'allProducts'
+        ));
     }
 
     public function flash_deal_details($slug)
@@ -934,5 +959,51 @@ class HomeController extends Controller
                 ->paginate(15);
 
         return view('frontend.shop_listing', compact('shops'));
+    }
+
+    public function registerSeller() {
+        // nếu nạp tiền thành công sẽ return vào đây
+        $userId = auth()->id();
+        if (auth()->user()->user_type == 'customer') {
+            //http://127.0.0.1:8000/register_seller
+            DB::beginTransaction();
+            try {
+                DB::commit();
+                $package = SellerPackage::first();
+                // tạo ví nạp tiền thành seller của customer,
+                $pendingWallet = new Wallet();
+                $pendingWallet->user_id = $userId;
+                $pendingWallet->status_withdraw = 2;
+                $pendingWallet->type = 2;
+                $pendingWallet->amount = $package->amount;
+                $pendingWallet->save();
+
+                $wallet = Wallet::where('user_id', auth()->id())
+                    ->where('status_withdraw', 1)
+                    ->first();
+
+                $wallet->type = 2;
+                $wallet->update();
+
+                $customer = Customer::where('user_id', $userId)->first();
+
+                // taoj seller cho customer
+                $seller = new Seller();
+                $seller->user_id = $userId;
+                $seller->seller_package_id = $package->id;
+                $seller->verification_status = 1;
+                $seller->bank_name = $customer->bank_name;
+                $seller->bank_acc_no = $customer->bank_acc_no;
+                $seller->bank_acc_name = $customer->bank_acc_name;
+                $seller->save();
+                // chuyeenr user thanh seller
+                $user = User::find($userId);
+                $user->user_type = 'seller';
+                $user->save();
+
+            } catch (Exception $e) {
+                DB::rollBack();
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@ class Product extends Model {
     {
         parent::boot();
 
-        static::addGlobalScope(new \App\Scopes\TenacyScope);
+//        static::addGlobalScope(new \App\Scopes\TenacyScope);
 
         // Doc: https://viblo.asia/p/su-dung-model-observers-trong-laravel-oOVlYeQVl8W
         static::saving(function ($model) {
@@ -94,5 +94,9 @@ class Product extends Model {
     public function flashDeals()
     {
         return $this->belongsToMany(FlashDeal::class, 'flash_deal_products', 'product_id', 'flash_deal_id')->withPivot('discount', 'discount_type', 'tenacy_id')->wherePivot('tenacy_id', get_tenacy_id_for_query());
+    }
+
+    public function productStocks(){
+        return $this->hasMany(ProductStock::class);
     }
 }

@@ -228,7 +228,7 @@ class AddonController extends Controller
 
         // $addon->tenacy_id = get_tenacy_id_for_query(); $addon->save();
         // //$menu->save();
-        
+
         Addon::where('id', $request->id)->update([
             'activated' => $request->status
         ]);

@@ -23,7 +23,7 @@ class Customer extends Model
         static::saving(function ($model) {
             $model->tenacy_id = get_tenacy_id_for_query();
         });
-        
+
     }
 
     /**
@@ -40,7 +40,8 @@ class Customer extends Model
     }
 
     protected $fillable = [
-      'user_id',
+        'user_id',
+        'invited_by',
     ];
     public function user(){
     	return $this->belongsTo(user::class);
