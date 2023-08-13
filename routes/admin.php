@@ -348,4 +348,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
             Route::get('/connect', 'LazadaController@connect')->name('market_place.lazada.connect');
         });
     });
+
+    Route::resource('tenants', 'TenantController');
+    Route::post('/tenants/status', 'TenantController@updateStatus')->name('tenants.status');
+    Route::get('/tenants/destroy/{id}', 'TenantController@destroy')->name('tenants.destroy');
 });
