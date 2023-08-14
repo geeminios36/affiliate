@@ -17,7 +17,7 @@ class CreateTenantsTable extends Migration
             $table->id();
             $table->string('code', 50)->unique();
             $table->string('name', 255);
-            $table->integer('host_id')->nullable();
+            $table->integer('host_id')->nullable()->unique();
             $table->tinyInteger('status')->nullable()->default(TENANT_ACTIVE);
             $table->tinyInteger('is_deleted')->nullable()->default(0);
             $table->timestamps();

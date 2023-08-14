@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
+use App\Role;
 use Illuminate\Http\Request;
 use App\Staff;
 use App\User;
@@ -74,21 +74,18 @@ class StaffController extends Controller
                 $user->name = $request->name;
                 $user->email = $request->email;
                 $user->phone = $request->mobile;
-                $user->user_type = "staff";
+                $user->user_type = $request->user_type ?? "staff";
                 $user->password = Hash::make($request->password);
                 $user->tenacy_id = get_tenacy_id_for_query();
                 $user->save();
-                $department_id = null;
                 $role_id = null;
 
                 // if current user is factory manager
                 if ($current_user->user_type == "staff" &&      $current_user->staff->role->name == 'Factory manager') {
-                    $department_id = $current_user->id;
                     $role_employee = Role::where('name', 'Factory employee')->first();
                     $role_id = $role_employee->id;
                 } else {
                     // if current user is admin 
-                    $department_id = $user->id;
                     $role_id = (int) $request->role_id;
                 }
 
@@ -98,7 +95,6 @@ class StaffController extends Controller
                         'user_id' => $user->id,
                         'role_id' => $role_id,
                         'tenacy_id' => get_tenacy_id_for_query(),
-                        'department_id' => $department_id
                     ]
                 );
                 flash(translate('Staff has been inserted successfully'))->success();

@@ -349,7 +349,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
         });
     });
 
-    Route::resource('tenants', 'TenantController');
-    Route::post('/tenants/status', 'TenantController@updateStatus')->name('tenants.status');
-    Route::get('/tenants/destroy/{id}', 'TenantController@destroy')->name('tenants.destroy');
+    Route::resource('tenants', 'TenantManagerController');
+    Route::post('/tenants/status', 'TenantManagerController@updateStatus')->name('tenants.status');
+    Route::get('/tenants/destroy/{id}', 'TenantManagerController@destroy')->name('tenants.destroy');
 });

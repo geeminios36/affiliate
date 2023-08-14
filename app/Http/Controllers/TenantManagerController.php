@@ -7,7 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class TenantController extends Controller
+class TenantManagerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +35,7 @@ class TenantController extends Controller
      */
     public function create()
     {
-        $users = User::where('user_type', 'staff')->where('banned', 0)->get();
+        $users = User::where('user_type', 'host')->where('banned', 0)->get();
         return view('backend.tenants.create', compact('users'));
     }
 
@@ -79,7 +79,7 @@ class TenantController extends Controller
     {
         $tenant = Tenant::where('id', $id)->first();
 
-        $users = User::where('user_type', 'staff')->where('banned', 0)->get();
+        $users = User::where('user_type', 'host')->where('banned', 0)->get();
 
         return view('backend.tenants.edit', compact('tenant', 'users'));
     }

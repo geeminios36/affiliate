@@ -1338,10 +1338,12 @@ if (!function_exists('commission_calculation')) {
 if (!function_exists('get_tenacy_id_for_query')) {
     function get_tenacy_id_for_query()
     {
-        if (!empty(env('TENACY_ID'))) {
-            return env('TENACY_ID');
+        $tenant = \App\Models\Tenant::where('host_id', Auth::id())->where('is_deleted', 0)->first();
+        if ($tenant) {
+            return $tenant->code;
+        } else {
+            return 'all';
         }
-        return 'all';
     }
 }
 
@@ -1465,4 +1467,27 @@ function format_date($date)
 function format_date_time($date)
 {
     return date('H:i d/m/Y', strtotime($date));
+}
+function is_admin(): bool
+{
+    if (Auth::check() && (Auth::user()->user_type == 'admin')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function is_host(): bool
+{
+    if (Auth::check() && (Auth::user()->user_type == 'host')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function user_types(): array
+{
+    return [
+        'staff' => 'Nhân viên',
+        'host' => 'Quản lý xưởng',
+    ];
 }

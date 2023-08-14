@@ -134,11 +134,6 @@
                                     <span class="aiz-side-nav-text">{{translate('Product Reviews')}}</span>
                                 </a>
                             </li>
-                            <li class="aiz-side-nav-item">
-                                <a href="{{route('tenants.index')}}" class="aiz-side-nav-link">
-                                    <span class="aiz-side-nav-text">{{translate('Tenant')}}</span>
-                                </a>
-                            </li>
                         </ul>
                     </li>
                 @endif
@@ -1034,6 +1029,13 @@
                            class="aiz-side-nav-link {{ areActiveRoutes(['addons.index', 'addons.create'])}}">
                             <i class="las la-wrench aiz-side-nav-icon"></i>
                             <span class="aiz-side-nav-text">{{translate('Addon Manager')}}</span>
+                        </a>
+                    </li>
+                @endif
+                @if(is_admin())
+                    <li class="aiz-side-nav-item">
+                        <a href="{{route('tenants.index')}}" class="aiz-side-nav-link">
+                            <span class="aiz-side-nav-text">{{translate('Tenant')}}</span>
                         </a>
                     </li>
                 @endif

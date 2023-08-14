@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Tenant;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,8 +23,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected static function boot()
     {
         parent::boot();
-
-        static::addGlobalScope(new \App\Scopes\TenacyScope);
 
         // Doc: https://viblo.asia/p/su-dung-model-observers-trong-laravel-oOVlYeQVl8W
         static::saving(function ($model) {
@@ -166,4 +165,9 @@ class User extends Authenticatable implements MustVerifyEmail
     // {
     //     return $this->belongsTo(Role::class);
     // }
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'host_id', 'id')->where('is_deleted', 0);
+    }
 }

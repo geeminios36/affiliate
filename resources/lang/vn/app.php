@@ -1602,4 +1602,5 @@ return
         'Tenant has been updated successfully' => 'Xưởng đã được cập nhật thành công',
         'Tenant has been deleted successfully' => 'Xưởng đã được xóa nhật thành công',
         'Code was taken' => 'Mã đã được sử dụng',
+        'User type' => 'Nhóm người dùng',
 	];
