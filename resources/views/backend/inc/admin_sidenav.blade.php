@@ -1032,7 +1032,7 @@
                         </a>
                     </li>
                 @endif
-                @if(is_admin())
+                @if(is_super_admin())
                     <li class="aiz-side-nav-item">
                         <a href="{{route('tenants.index')}}" class="aiz-side-nav-link">
                             <span class="aiz-side-nav-text">{{translate('Tenant')}}</span>

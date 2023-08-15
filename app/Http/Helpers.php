@@ -1018,7 +1018,7 @@ function hex2rgba($color, $opacity = false)
 if (!function_exists('isAdmin')) {
     function isAdmin()
     {
-        if (Auth::check() && (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff')) {
+        if (Auth::check() && (is_admin())) {
             return true;
         }
         return false;
@@ -1468,9 +1468,17 @@ function format_date_time($date)
 {
     return date('H:i d/m/Y', strtotime($date));
 }
-function is_admin(): bool
+function is_super_admin(): bool
 {
     if (Auth::check() && (Auth::user()->user_type == 'admin')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function is_admin(): bool
+{
+    if(Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff' || Auth::user()->user_type == 'host') {
         return true;
     } else {
         return false;
@@ -1491,3 +1499,4 @@ function user_types(): array
         'host' => 'Quản lý xưởng',
     ];
 }
+

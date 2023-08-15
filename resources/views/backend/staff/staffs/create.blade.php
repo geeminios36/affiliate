@@ -36,7 +36,7 @@
                             <input type="password" placeholder="{{translate('Password')}}" id="password" name="password" class="form-control" required>
                         </div>
                     </div>
-                    @if(is_admin())
+                    @if(is_super_admin())
                     <div class="form-group row">
                         <label class="col-sm-3 col-from-label" for="name">{{translate('User type')}}</label>
                         <div class="col-sm-9">
