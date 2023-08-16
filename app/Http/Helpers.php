@@ -1478,7 +1478,7 @@ function is_super_admin(): bool
 }
 function is_admin(): bool
 {
-    if(Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff' || Auth::user()->user_type == 'host') {
+    if(Auth::check() && (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff' || Auth::user()->user_type == 'host')) {
         return true;
     } else {
         return false;
