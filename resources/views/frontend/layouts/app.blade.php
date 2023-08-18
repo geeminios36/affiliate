@@ -87,8 +87,12 @@
     @endphp
 </head>
 <body>
-@include('frontend.partials.slide')
-@include('frontend.partials.header')
+
+@yield('slide')
+
+@yield('header')
+
+@yield('breadcrumb')
 
 <div id="main-wrapper">
     @yield('content')
@@ -97,6 +101,8 @@
     @include('frontend.footer')
     <!--====================  End of footer area  ====================-->
 </div>
+
+@yield('modal')
 
 @include('frontend.partials.modal')
 @include('frontend.partials.mobile')
@@ -158,12 +164,39 @@
 
 <!-- Plugins JS (Please remove the comment from below plugins.min.js for better website load performance and remove plugin js files from avobe) -->
 
-<!--
-<script src="{{  static_asset('assets/frontend/js/plugins/plugins.min.js') }}"></script>
--->
+{{--<script src="{{  static_asset('assets/frontend/js/plugins/plugins.min.js') }}"></script>--}}
 
 <!-- Main JS -->
 <script src="{{  static_asset('assets/frontend/js/main.js') }}"></script>
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
+<script>
+    let addToCart = function (id) {
+        let url = '{{ route('cart.addToCart') }}/' + id;
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                'quantity': $('.cart-plus-minus-box').val(),
+            },
+            success: function (data) {
+                console.log(data)
+                // $('#addToCart-modal-body').html(null);
+                // $('.c-preloader').hide();
+                // $('#modal-size').removeClass('modal-lg');
+                // $('#addToCart-modal-body').html(data.view);
+                // updateNavCart();
+                // $('#cart_items_sidenav').html(parseInt($('#cart_items_sidenav').html()) + 1);
+            }
+        });
+    }
+</script>
 
 @yield('script')
 </body>

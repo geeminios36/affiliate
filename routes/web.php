@@ -103,7 +103,7 @@ Route::get('/shop/{slug}/{type}', 'HomeController@filter_shop')->name('shop.visi
 Route::get('/cart', 'CartController@index')->name('cart');
 Route::post('/cart/nav-cart-items', 'CartController@updateNavCart')->name('cart.nav_cart');
 Route::post('/cart/show-cart-modal', 'CartController@showCartModal')->name('cart.showCartModal');
-Route::post('/cart/addtocart', 'CartController@addToCart')->name('cart.addToCart');
+Route::post('/cart/addtocart/{product_id?}', 'CartController@addToCart')->name('cart.addToCart');
 Route::post('/cart/removeFromCart', 'CartController@removeFromCart')->name('cart.removeFromCart');
 Route::post('/cart/updateQuantity', 'CartController@updateQuantity')->name('cart.updateQuantity');
 

@@ -52,9 +52,12 @@ class CartController extends Controller
         return view('frontend.partials.cart');
     }
 
-    public function addToCart(Request $request)
+    public function addToCart(Request $request, $pId) {
+
+    }
+    public function addToCart1(Request $request, $pId)
     {
-        $product = Product::where('id', $request->id)->first();
+        $product = Product::where('id', $pId ?? $request->id)->first();
         $carts = array();
         $data = array();
 
@@ -219,7 +222,7 @@ class CartController extends Controller
             $product = \App\Product::where('id', $object['product_id'])->first();
             $product_stock = $product->stocks->where('variant', $object['variation'])->first();
             $quantity = $product_stock->qty;
-            
+
             if($quantity >= $request->quantity) {
                 if($request->quantity >= $product->min_qty){
                     $object['quantity'] = $request->quantity;
