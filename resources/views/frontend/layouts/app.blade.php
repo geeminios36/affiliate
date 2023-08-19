@@ -165,38 +165,20 @@
 <!-- Plugins JS (Please remove the comment from below plugins.min.js for better website load performance and remove plugin js files from avobe) -->
 
 {{--<script src="{{  static_asset('assets/frontend/js/plugins/plugins.min.js') }}"></script>--}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- Main JS -->
-<script src="{{  static_asset('assets/frontend/js/main.js') }}"></script>
 <script type="text/javascript">
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    const urlAddToCart = '{{ route('cart.addToCart') }}/',
+        _token = '{{ csrf_token() }}';
 </script>
-<script>
-    let addToCart = function (id) {
-        let url = '{{ route('cart.addToCart') }}/' + id;
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                "_token": "{{ csrf_token() }}",
-                'quantity': $('.cart-plus-minus-box').val(),
-            },
-            success: function (data) {
-                console.log(data)
-                // $('#addToCart-modal-body').html(null);
-                // $('.c-preloader').hide();
-                // $('#modal-size').removeClass('modal-lg');
-                // $('#addToCart-modal-body').html(data.view);
-                // updateNavCart();
-                // $('#cart_items_sidenav').html(parseInt($('#cart_items_sidenav').html()) + 1);
-            }
-        });
-    }
-</script>
+
+<!-- Main JS -->
+<script src="{{  static_asset('assets/frontend/js/main.js') }}"></script>
 
 @yield('script')
 </body>

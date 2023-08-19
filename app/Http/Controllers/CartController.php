@@ -53,8 +53,59 @@ class CartController extends Controller
     }
 
     public function addToCart(Request $request, $pId) {
+        $quantities = $request->input('quantity');
+        if (!is_numeric($quantities) || $quantities == 0) {
+            return response()->json([
+                'status' => 0,
+                'msg' => "Vui lòng chọn số lượng sản phẩm",
+            ]);
+        }
 
+        $product = Product::where('id', $pId)->first();
+        $tempUserId = getTempUserId();
+
+        $data = [
+            'user_id' => auth()->check() ? auth()->id() : null,
+            'temp_user_id' => $tempUserId,
+            'product_id' => $pId,
+            'price' => $product->unit_price * $request->input('quantity'),
+            'quantity' => $quantities,
+            'tenacy_id' => $product->tenacy_id,
+        ];
+
+        $currentCart = Cart::where(function ($query) use ($tempUserId, $pId) {
+            if (auth()->check()) $query->where('user_id', auth()->id());
+            else $query->where('temp_user_id', $tempUserId);
+
+            if (!empty($productId)) $query->where('product_id', $productId);
+        })->first();
+
+        try {
+            if (!empty($currentCart)) {
+                $currentCart->quantity = $currentCart->quantity + $quantities;
+                $currentCart->save();
+            } else {
+                Cart::create($data);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 0,
+                'msg' => "Something went wrong! Please try again.",
+            ]);
+        }
+
+        $listCart = Cart::where(function ($query) use ($tempUserId, $pId) {
+            if (auth()->check()) $query->where('user_id', auth()->id());
+            else $query->where('temp_user_id', $tempUserId);
+        })->get();
+
+        return response()->json([
+            'status' => 1,
+            'count' => count($listCart),
+            'data' => $listCart->toArray()
+        ]);
     }
+
     public function addToCart1(Request $request, $pId)
     {
         $product = Product::where('id', $pId ?? $request->id)->first();

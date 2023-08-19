@@ -159,7 +159,7 @@
                                 <div class="quickview-cart-box">
                                     <div class="quickview-quality">
                                         <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="0">
+                                            <input class="cart-plus-minus-box cart-plus-minus-box-{{ $detailedProduct->id }}" type="text" name="qtybutton" value="0">
                                         </div>
                                     </div>
 

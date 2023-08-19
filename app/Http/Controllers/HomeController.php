@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Blog;
+use App\Cart;
 use App\Customer;
 use App\SellerPackage;
 use App\Wallet;

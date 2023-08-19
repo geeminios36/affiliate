@@ -1513,3 +1513,20 @@ function format_date_time($date)
 {
     return date('H:i d/m/Y', strtotime($date));
 }
+
+function getTempUserId()
+{
+    $session = \Illuminate\Support\Facades\Request::session();
+    $tempUserId = '';
+
+    if (!auth()->check()) {
+        if($session->get('temp_user_id')) {
+            $tempUserId = $session->get('temp_user_id');
+        } else {
+            $tempUserId = bin2hex(random_bytes(10));
+            $session->put('temp_user_id', $tempUserId);
+        }
+    }
+    return $tempUserId;
+}
+?>
