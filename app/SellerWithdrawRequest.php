@@ -12,6 +12,9 @@ class SellerWithdrawRequest extends Model
      *
      * @return void
      */
+
+    // type column have 3 values: 1 = customer, 2 = seller, 3 = warehouse
+    //
     protected static function boot()
     {
         parent::boot();
@@ -24,7 +27,7 @@ class SellerWithdrawRequest extends Model
         });
     }
 
-     /**
+    /**
      * Set the keys for a save update query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -36,7 +39,7 @@ class SellerWithdrawRequest extends Model
 
         return $query;
     }
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
