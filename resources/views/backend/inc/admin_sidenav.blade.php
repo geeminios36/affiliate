@@ -476,20 +476,6 @@
                                 </a>
                             </li>
                             <li class="aiz-side-nav-item">
-                                <a href="{{ route('sellers.payment_histories') }}"
-                                    class="aiz-side-nav-link">
-                                    <span
-                                        class="aiz-side-nav-text">{{ translate('Payouts') }}</span>
-                                </a>
-                            </li>
-                            <li class="aiz-side-nav-item">
-                                <a href="{{ route('withdraw_requests_all') }}"
-                                    class="aiz-side-nav-link">
-                                    <span
-                                        class="aiz-side-nav-text">{{ translate('Payout Requests') }}</span>
-                                </a>
-                            </li>
-                            <li class="aiz-side-nav-item">
                                 <a href="{{ route('business_settings.vendor_commission') }}"
                                     class="aiz-side-nav-link">
                                     <span
