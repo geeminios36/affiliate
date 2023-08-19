@@ -194,7 +194,6 @@
                                 </a>
                             </li>
                         @endif
-
                         @if (Auth::user()->user_type == 'admin' ||
                                 in_array('4', json_decode(Auth::user()->staff->role->permissions)))
                             <li class="aiz-side-nav-item">
@@ -227,6 +226,7 @@
                         @endif
                     </ul>
                 </li>
+
                 <li class="aiz-side-nav-item">
                     <a href="#" class="aiz-side-nav-link">
                         <i class="las la-truck aiz-side-nav-icon"></i>
@@ -475,7 +475,6 @@
                                     @endif
                                 </a>
                             </li>
-
                             <li class="aiz-side-nav-item">
                                 <a href="{{ route('business_settings.vendor_commission') }}"
                                     class="aiz-side-nav-link">
@@ -510,7 +509,6 @@
                         </ul>
                     </li>
                 @endif
-                <!--Upload file -->
                 @if (Auth::user()->user_type == 'admin' ||
                         in_array('22', json_decode(Auth::user()->staff->role->permissions)))
                     <li class="aiz-side-nav-item">
