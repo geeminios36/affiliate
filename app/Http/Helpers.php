@@ -786,6 +786,19 @@ function translate($key, $lang = null)
     return __('app.' . $key);
 }
 
+function get_cart()
+{
+    $cart = [];
+
+    if (auth()->user()) {
+        $cart = \App\Cart::where('user_id', Auth::id())->get();
+    } elseif (Session()->get('temp_user_id')) {
+        $cart = \App\Cart::where('temp_user_id', Session()->get('temp_user_id'))->get();
+    }
+
+    return $cart;
+}
+
 
 function remove_invalid_charcaters($str)
 {
@@ -893,7 +906,7 @@ if (!function_exists('uploaded_asset')) {
                 return my_asset($asset->file_name);
             }
         }
-        return 'assets/frontend/images/product/1_1-300x300.webp';
+        return '/assets/frontend/images/product/1_1-300x300.webp';
     }
 }
 
@@ -1500,3 +1513,20 @@ function format_date_time($date)
 {
     return date('H:i d/m/Y', strtotime($date));
 }
+
+function getTempUserId()
+{
+    $session = \Illuminate\Support\Facades\Request::session();
+    $tempUserId = '';
+
+    if (!auth()->check()) {
+        if($session->get('temp_user_id')) {
+            $tempUserId = $session->get('temp_user_id');
+        } else {
+            $tempUserId = bin2hex(random_bytes(10));
+            $session->put('temp_user_id', $tempUserId);
+        }
+    }
+    return $tempUserId;
+}
+?>

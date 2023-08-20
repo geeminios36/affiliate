@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Blog;
+use App\Cart;
 use App\Customer;
 use App\SellerPackage;
 use App\Wallet;
@@ -249,10 +250,17 @@ class HomeController extends Controller
             ->where('featured', '1')->limit(6)
             ->get();
 
+        $mergeProducts = $categories
+            ->pluck('products')
+            ->flatten()
+            ->merge($allProducts)
+            ->unique('id');
+
         return view('frontend.index', compact(
             'blogs',
             'categories',
-            'allProducts'
+            'allProducts',
+            'mergeProducts'
         ));
     }
 
@@ -299,7 +307,15 @@ class HomeController extends Controller
 
     public function product(Request $request, $slug)
     {
-        $detailedProduct  = Product::where('slug', $slug)->first();
+        $detailedProduct  = Product::where('slug', $slug)
+            ->with(['category' => function($query) use ($slug){
+                $query->with(['products' => function($q) use ($slug) {
+                    $q->where('slug', '<>', $slug)->limit(7);
+                }]);
+            }])
+            ->first();
+
+        return view('frontend.product_details', compact('detailedProduct'));
 
         if ($detailedProduct != null && $detailedProduct->published) {
             //updateCartSetup();

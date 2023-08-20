@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Cart;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use App\BusinessSetting;
@@ -9,34 +10,37 @@ use App\Currency;
 
 class AppServiceProvider extends ServiceProvider
 {
-  /**
-   * Bootstrap any application services.
-   *
-   * @return void
-   */
-  public function boot()
-  {
-    Schema::defaultStringLength(191);
-    $business_settings = BusinessSetting::where('type', 'system_default_currency')->first();
-    if (!empty($business_settings)) {
-      $currency = Currency::where('id', $business_settings->value)->first();
-      if (empty($currency)) {
-        BusinessSetting::where('type', 'system_default_currency')->update(['value' => Currency::where('tenacy_id', get_tenacy_id_for_query())->first()->id]);
-      }
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        view()->composer('*', function ($view) {
+            $tempUserId = getTempUserId();
+            $listCart = Cart::where(function ($query) use ($tempUserId) {
+                if (auth()->check()) {
+                    $query->where('user_id', auth()->id());
+                } else {
+                    $query->where('temp_user_id', $tempUserId);
+                }
+
+            })
+                ->with(['product'])
+                ->get();
+
+            $view->with('listCart', $listCart);
+        });
     }
 
-    // Event::listen(['eloquent.created: *', 'eloquent.updated: *'], function($model) {
-    //   //$model->11111 = 1;
-    // });
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
 
-  }
-
-  /**
-   * Register any application services.
-   *
-   * @return void
-   */
-  public function register()
-  {
-  }
+    }
 }

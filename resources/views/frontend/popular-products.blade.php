@@ -48,13 +48,13 @@
                                         {{--                                            </span>--}}
                                     </a>
                                     <div class="product-actions">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#prodect-modal"><i
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#product-modal-{{ $product->id }}"><i
                                                 class="p-icon icon-plus"></i><span
                                                 class="tool-tip">Quick View</span></a>
-                                        <a href="{{ route('product', $product->slug) }}"><i
+                                        <a href="#" onclick="addToCart({{ $product->id }})"><i
                                                 class="p-icon icon-bag2"></i> <span
                                                 class="tool-tip">Add to cart</span></a>
-                                        <a href="wishlist.html"><i class="p-icon icon-heart"></i> <span
+                                        <a href="{{ route('wishlists.index') }}"><i class="p-icon icon-heart"></i> <span
                                                 class="tool-tip">Browse Wishlist</span></a>
                                     </div>
                                 </div>
@@ -72,7 +72,6 @@
                             </div><!-- Single Product Item End -->
                         </div>
                     @endforeach
-
                 </div>
             </div>
             @foreach($categories as $key => $category)
@@ -97,13 +96,13 @@
                                                 @endif
                                             </a>
                                             <div class="product-actions">
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#prodect-modal"><i
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#product-modal-{{ $product->id }}"><i
                                                         class="p-icon icon-plus"></i><span
                                                         class="tool-tip">Quick View</span></a>
-                                                <a href="{{ route('product', $product->slug) }}"><i
+                                                <a href="#" onclick="addToCart({{ $product->id }})"><i
                                                         class="p-icon icon-bag2"></i> <span
                                                         class="tool-tip">Add to cart</span></a>
-                                                <a href="wishlist.html"><i class="p-icon icon-heart"></i> <span
+                                                <a href="{{ route('wishlists.index') }}"><i class="p-icon icon-heart"></i> <span
                                                         class="tool-tip">Browse Wishlist</span></a>
                                             </div>
                                         </div>

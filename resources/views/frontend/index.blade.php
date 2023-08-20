@@ -1,4 +1,11 @@
 @extends('frontend.layouts.app')
+@section('slide')
+    @include('frontend.partials.slide')
+@endsection
+
+@section('header')
+    @include('frontend.partials.home_header')
+@endsection
 
 @section('content')
     <div class="site-wrapper-reveal pt-5">
@@ -24,6 +31,10 @@
         <!-- Our Brand Area End -->
     </div>
 
+@endsection
+
+@section('modal')
+    @include('frontend.modal_product_detail')
 @endsection
 
 @section('script')
