@@ -153,7 +153,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     // All Orders
     Route::get('/all_orders', 'OrderController@all_orders')->name('all_orders.index');
     Route::get('/all_orders/{id}/show', 'OrderController@all_orders_show')->name('all_orders.show');
-
     // Inhouse Orders
     Route::get('/inhouse-orders', 'OrderController@admin_orders')->name('inhouse_orders.index');
     Route::get('/inhouse-orders/{id}/show', 'OrderController@show')->name('inhouse_orders.show');
@@ -292,7 +291,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 
         //Best Express
         Route::post('/login_best_express', 'DeliveryController@loginBestExpress')->name('delivery.login_best_express');
-
     });
 
     //Market Place
