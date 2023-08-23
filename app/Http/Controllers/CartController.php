@@ -52,9 +52,63 @@ class CartController extends Controller
         return view('frontend.partials.cart');
     }
 
-    public function addToCart(Request $request)
+    public function addToCart(Request $request, $pId) {
+        $quantities = $request->input('quantity');
+        if (!is_numeric($quantities) || $quantities == 0) {
+            return response()->json([
+                'status' => 0,
+                'msg' => "Vui lòng chọn số lượng sản phẩm",
+            ]);
+        }
+
+        $product = Product::where('id', $pId)->first();
+        $tempUserId = getTempUserId();
+
+        $data = [
+            'user_id' => auth()->check() ? auth()->id() : null,
+            'temp_user_id' => $tempUserId,
+            'product_id' => $pId,
+            'price' => $product->unit_price * $request->input('quantity'),
+            'quantity' => $quantities,
+            'tenacy_id' => $product->tenacy_id,
+        ];
+
+        $currentCart = Cart::where(function ($query) use ($tempUserId, $pId) {
+            if (auth()->check()) $query->where('user_id', auth()->id());
+            else $query->where('temp_user_id', $tempUserId);
+
+            if (!empty($productId)) $query->where('product_id', $productId);
+        })->first();
+
+        try {
+            if (!empty($currentCart)) {
+                $currentCart->quantity = $currentCart->quantity + $quantities;
+                $currentCart->save();
+            } else {
+                Cart::create($data);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 0,
+                'msg' => "Something went wrong! Please try again.",
+            ]);
+        }
+
+        $listCart = Cart::where(function ($query) use ($tempUserId, $pId) {
+            if (auth()->check()) $query->where('user_id', auth()->id());
+            else $query->where('temp_user_id', $tempUserId);
+        })->get();
+
+        return response()->json([
+            'status' => 1,
+            'count' => count($listCart),
+            'data' => $listCart->toArray()
+        ]);
+    }
+
+    public function addToCart1(Request $request, $pId)
     {
-        $product = Product::where('id', $request->id)->first();
+        $product = Product::where('id', $pId ?? $request->id)->first();
         $carts = array();
         $data = array();
 
@@ -219,7 +273,7 @@ class CartController extends Controller
             $product = \App\Product::where('id', $object['product_id'])->first();
             $product_stock = $product->stocks->where('variant', $object['variation'])->first();
             $quantity = $product_stock->qty;
-            
+
             if($quantity >= $request->quantity) {
                 if($request->quantity >= $product->min_qty){
                     $object['quantity'] = $request->quantity;

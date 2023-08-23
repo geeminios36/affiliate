@@ -26,7 +26,7 @@ Route::get('/mock_payments', 'ProxypayController@webhook_response');
 Route::post('/test-me', 'ProxypayController@mock_payment');
 
 
-Route::get('/refresh-csrf', function() {
+Route::get('/refresh-csrf', function () {
     return csrf_token();
 });
 
@@ -58,6 +58,12 @@ Route::post('/users/login/cart', 'HomeController@cart_login')->name('cart.login.
 
 //Home Page
 Route::get('/', 'HomeController@index')->name('home');
+
+
+Route::get('/register_seller', 'HomeController@registerSeller')->name('home.register_seller');
+
+
+
 Route::post('/home/section/featured', 'HomeController@load_featured_section')->name('home.section.featured');
 Route::post('/home/section/best_selling', 'HomeController@load_best_selling_section')->name('home.section.best_selling');
 Route::post('/home/section/home_categories', 'HomeController@load_home_categories_section')->name('home.section.home_categories');
@@ -70,7 +76,7 @@ Route::get('/flash-deals', 'HomeController@all_flash_deals')->name('flash-deals'
 Route::get('/flash-deal/{slug}', 'HomeController@flash_deal_details')->name('flash-deal-details');
 
 
-Route::get('/sitemap.xml', function() {
+Route::get('/sitemap.xml', function () {
     return base_path('sitemap.xml');
 });
 
@@ -97,12 +103,12 @@ Route::get('/shop/{slug}/{type}', 'HomeController@filter_shop')->name('shop.visi
 Route::get('/cart', 'CartController@index')->name('cart');
 Route::post('/cart/nav-cart-items', 'CartController@updateNavCart')->name('cart.nav_cart');
 Route::post('/cart/show-cart-modal', 'CartController@showCartModal')->name('cart.showCartModal');
-Route::post('/cart/addtocart', 'CartController@addToCart')->name('cart.addToCart');
+Route::post('/cart/addtocart/{product_id?}', 'CartController@addToCart')->name('cart.addToCart');
 Route::post('/cart/removeFromCart', 'CartController@removeFromCart')->name('cart.removeFromCart');
 Route::post('/cart/updateQuantity', 'CartController@updateQuantity')->name('cart.updateQuantity');
 
 //Checkout Routes
-Route::group(['middleware' => ['checkout']], function() {
+Route::group(['middleware' => ['checkout']], function () {
     Route::get('/checkout', 'CheckoutController@get_shipping_info')->name('checkout.shipping_info');
     Route::any('/checkout/delivery_info', 'CheckoutController@store_shipping_info')->name('checkout.store_shipping_infostore');
     Route::post('/checkout/payment_select', 'CheckoutController@store_delivery_info')->name('checkout.store_delivery_info');
@@ -158,8 +164,14 @@ Route::get('/supportpolicy', 'HomeController@supportpolicy')->name('supportpolic
 Route::get('/terms', 'HomeController@terms')->name('terms');
 Route::get('/privacypolicy', 'HomeController@privacypolicy')->name('privacypolicy');
 
-Route::group(['middleware' => ['user', 'verified', 'unbanned']], function() {
+Route::group(['middleware' => ['user', 'verified', 'unbanned']], function () {
     Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
+    Route::get('/sold-order-detail/{id}', 'HomeController@showSoldOrderDetail')->name('sold_order_detail');
+    Route::get('/payment-request', 'HomeController@showPaymentRequestModal')->name('show-payment-request-modal');
+    Route::post('/payment-request', 'HomeController@createNewPaymentRequest')->name('create-payment-request');
+    Route::get('/payment-request-table', 'HomeController@showPaymentRequestTable')->name('show-payment-request-table');
+
+
     Route::get('/profile', 'HomeController@profile')->name('profile');
     Route::post('/new-user-verification', 'HomeController@new_verify')->name('user.new.verify');
     Route::post('/new-user-email', 'HomeController@update_email')->name('user.change.email');
@@ -190,7 +202,7 @@ Route::group(['middleware' => ['user', 'verified', 'unbanned']], function() {
 
 Route::get('/customer_products/destroy/{id}', 'CustomerProductController@destroy')->name('customer_products.destroy');
 
-Route::group(['prefix' => 'seller', 'middleware' => ['seller', 'verified', 'user']], function() {
+Route::group(['prefix' => 'seller', 'middleware' => ['seller', 'verified', 'user']], function () {
     Route::get('/products', 'HomeController@seller_product_list')->name('seller.products');
     Route::get('/product/upload', 'HomeController@show_product_upload_form')->name('seller.products.upload');
     Route::get('/product/{id}/edit', 'HomeController@show_product_edit_form')->name('seller.products.edit');
@@ -207,7 +219,7 @@ Route::group(['prefix' => 'seller', 'middleware' => ['seller', 'verified', 'user
     Route::get('/digitalproducts/{id}/edit', 'HomeController@show_digital_product_edit_form')->name('seller.digitalproducts.edit');
 });
 
-Route::group(['middleware' => ['auth']], function() {
+Route::group(['middleware' => ['auth']], function () {
     Route::post('/products/store/', 'ProductController@store')->name('products.store');
     Route::post('/products/update/{id}', 'ProductController@update')->name('products.update');
     Route::get('/products/destroy/{id}', 'ProductController@destroy')->name('products.destroy');
@@ -245,7 +257,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/bulk-product-upload', 'ProductBulkUploadController@bulk_upload')->name('bulk_product_upload');
     Route::get('/product-csv-download/{type}', 'ProductBulkUploadController@import_product')->name('product_csv.download');
     Route::get('/vendor-product-csv-download/{id}', 'ProductBulkUploadController@import_vendor_product')->name('import_vendor_product.download');
-    Route::group(['prefix' => 'bulk-upload/download'], function() {
+    Route::group(['prefix' => 'bulk-upload/download'], function () {
         Route::get('/category', 'ProductBulkUploadController@pdf_download_category')->name('pdf.download_category');
         Route::get('/brand', 'ProductBulkUploadController@pdf_download_brand')->name('pdf.download_brand');
         Route::get('/seller', 'ProductBulkUploadController@pdf_download_seller')->name('pdf.download_seller');
@@ -334,3 +346,5 @@ Route::get('/mobile-page/{slug}', 'PageController@mobile_custom_page')->name('mo
 
 //Custom page
 Route::get('/{slug}', 'PageController@show_custom_page')->name('custom-pages.show_custom_page');
+
+Route::get('/register/{type}/{invited_by?}', 'Auth\RegisterController@register')->name('register');

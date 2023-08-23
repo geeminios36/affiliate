@@ -231,7 +231,7 @@ if (!function_exists('filter_products')) {
     function filter_products($products)
     {
         $verified_sellers = verified_sellers_id();
-        if (BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1) {
+        if (BusinessSetting::where('type', 'vendor_system_activation')->first()?->value == 1) {
             return $products->where('published', '1')->orderBy('created_at', 'desc')->where(function ($p) use ($verified_sellers) {
                 $p->where('added_by', 'admin')->orWhere(function ($q) use ($verified_sellers) {
                     $q->whereIn('user_id', $verified_sellers);
@@ -786,6 +786,19 @@ function translate($key, $lang = null)
     return __('app.' . $key);
 }
 
+function get_cart()
+{
+    $cart = [];
+
+    if (auth()->user()) {
+        $cart = \App\Cart::where('user_id', Auth::id())->get();
+    } elseif (Session()->get('temp_user_id')) {
+        $cart = \App\Cart::where('temp_user_id', Session()->get('temp_user_id'))->get();
+    }
+
+    return $cart;
+}
+
 
 function remove_invalid_charcaters($str)
 {
@@ -893,7 +906,7 @@ if (!function_exists('uploaded_asset')) {
                 return my_asset($asset->file_name);
             }
         }
-        return null;
+        return '/assets/frontend/images/product/1_1-300x300.webp';
     }
 }
 
@@ -1004,12 +1017,67 @@ if (!function_exists('get_setting')) {
         // $settings = Cache::remember('business_settings', 86400, function(){
         //     return BusinessSetting::all();
         // });
-
         $setting = BusinessSetting::where('type', $key)->first();
         return $setting == null ? $default : $setting->value;
     }
 }
+if (!function_exists('get_type_seller_withdraw_requests')) {
+    function get_type_seller_withdraw_requests($key)
+    {
+        $types = [
+            1 => 'Customer',
+            2 => 'Seller',
+            3 => 'Warehourse',
+        ];
+        if ($key < 0 || $key > count($types)) {
+            return 'N/A';
+        }
 
+        return $types[$key];
+    }
+}
+
+if (!function_exists('get_request_type_payments')) {
+    function get_request_type_payments($key)
+    {
+
+        $types = [
+            0 => 'Add Money',
+            1 => 'With draw Money',
+        ];
+        if ($key < 0 || $key > count($types)) {
+            return 'N/A';
+        }
+        return $types[$key];
+    }
+}
+if (!function_exists('get_status_payments')) {
+    function get_status_payments($key)
+    {
+
+        $types = [
+            0 => 'Default',
+            1 => 'Success',
+            2 => 'Pending',
+            3 => 'Hold',
+            4 => 'Rejected',
+        ];
+        if ($key < 0 || $key > count($types)) {
+            return 'N/A';
+        }
+        return $types[$key];
+    }
+}
+
+
+function generatePaymentTXNCode(): string
+{
+    $length = 20;
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $txn_code = substr(str_shuffle($characters), 0, $length);
+
+    return $txn_code;
+}
 function hex2rgba($color, $opacity = false)
 {
     return Colorcodeconverter::convertHexToRgba($color, $opacity);
@@ -1468,6 +1536,22 @@ function format_date_time($date)
 {
     return date('H:i d/m/Y', strtotime($date));
 }
+
+function getTempUserId()
+{
+    $session = \Illuminate\Support\Facades\Request::session();
+    $tempUserId = '';
+
+    if (!auth()->check()) {
+        if($session->get('temp_user_id')) {
+            $tempUserId = $session->get('temp_user_id');
+        } else {
+            $tempUserId = bin2hex(random_bytes(10));
+            $session->put('temp_user_id', $tempUserId);
+        }
+    }
+    return $tempUserId;
+}
 function is_super_admin(): bool
 {
     if (Auth::check() && (Auth::user()->user_type == 'admin')) {
@@ -1499,4 +1583,4 @@ function user_types(): array
         'host' => 'Quản lý xưởng',
     ];
 }
-
+?>

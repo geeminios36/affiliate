@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\Builder;
 class Cart extends Model
 {
     /**
+     * @var Cart
+     */
+    private $model;
+
+    /**
      * The "booting" method of the model.
      *
      * @return void
@@ -18,19 +23,19 @@ class Cart extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new \App\Scopes\TenacyScope);
+//        static::addGlobalScope(new \App\Scopes\TenacyScope);
 
         // Doc: https://viblo.asia/p/su-dung-model-observers-trong-laravel-oOVlYeQVl8W
-        static::saving(function ($model) {
-            $model->tenacy_id = get_tenacy_id_for_query();
-        });
-        
+//        static::saving(function ($model) {
+//            $model->tenacy_id = get_tenacy_id_for_query();
+//        });
+
     }
 
     /**
      * Set the keys for a save update query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function setKeysForSaveQuery(Builder $query)
@@ -39,9 +44,9 @@ class Cart extends Model
 
         return $query;
     }
-    
+
     protected $guarded = [];
-    protected $fillable = ['address_id','price','tax','shipping_cost','discount','coupon_code','coupon_applied','quantity','user_id','temp_user_id','owner_id','product_id','variation'];
+    protected $fillable = ['address_id', 'price', 'tax', 'shipping_cost', 'discount', 'coupon_code', 'coupon_applied', 'quantity', 'user_id', 'temp_user_id', 'owner_id', 'product_id', 'variation'];
 
     public function user()
     {

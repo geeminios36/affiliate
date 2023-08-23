@@ -1,27 +1,132 @@
-<script>
-    function confirm_modal(delete_url)
-    {
-        jQuery('#confirm-delete').modal('show', {backdrop: 'static'});
-        document.getElementById('delete_link').setAttribute('href' , delete_url);
-    }
-</script>
 
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- Modal -->
+<div class="header-login-register-wrapper modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
+            <div class="modal-box-wrapper">
+                <div class="helendo-tabs">
+                    <ul class="nav" role="tablist">
+                        <li class="tab__item nav-item active">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#tab_list_06" role="tab">Login</a>
+                        </li>
+                        <li class="tab__item nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#tab_list_07" role="tab">Our Register</a>
+                        </li>
 
-            <div class="modal-header">
-                {{-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> --}}
-                <h4 class="modal-title" id="myModalLabel">{{translate('Confirmation')}}</h4>
+                    </ul>
+                </div>
+                <div class="tab-content content-modal-box">
+                    <div class="tab-pane fade show active" id="tab_list_06" role="tabpanel">
+                        <form action="#" class="account-form-box">
+                            <h6>Login your account</h6>
+                            <div class="single-input">
+                                <input type="text" placeholder="Username">
+                            </div>
+                            <div class="single-input">
+                                <input type="password" placeholder="Password">
+                            </div>
+                            <div class="checkbox-wrap mt-10">
+                                <label class="label-for-checkbox inline mt-15">
+                                    <input class="input-checkbox" name="rememberme" type="checkbox" id="rememberme"
+                                           value="forever"> <span>Remember me</span>
+                                </label>
+                                <a href="#" class=" mt-10">Lost your password?</a>
+                            </div>
+                            <div class="button-box mt-25">
+                                <a href="#" class="btn btn--full btn--black">Log in</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="tab_list_07" role="tabpanel">
+
+                        <form action="#" class="account-form-box">
+                            <h6>Register An Account</h6>
+                            <div class="single-input">
+                                <input type="text" placeholder="Username">
+                            </div>
+                            <div class="single-input">
+                                <input type="text" placeholder="Email address">
+                            </div>
+                            <div class="single-input">
+                                <input type="password" placeholder="Password">
+                            </div>
+                            <p class="mt-15">Your personal data will be used to support your experience throughout this
+                                website, to manage access to your account, and for other purposes described in our <a
+                                    href="#" class="privacy-policy-link" target="_blank">privacy policy</a>.</p>
+                            <div class="button-box mt-25">
+                                <a href="#" class="btn btn--full btn--black">Register</a>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
             </div>
+        </div>
+    </div>
+</div>
 
-            <div class="modal-body">
-                <p>{{translate('Delete confirmation message')}}</p>
-            </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{translate('Cancel')}}</button>
-                <a id="delete_link" class="btn btn-danger btn-ok">{{translate('Delete')}}</a>
+<!-- Modal -->
+<div class="header-login-register-wrapper modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-box-wrapper">
+                <div class="helendo-tabs">
+                    <ul class="nav" role="tablist">
+                        <li class="tab__item nav-item active">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#tab_list_06" role="tab">Login</a>
+                        </li>
+                        <li class="tab__item nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#tab_list_07" role="tab">Our Register</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="tab-content content-modal-box">
+                    <div class="tab-pane fade show active" id="tab_list_06" role="tabpanel">
+                        <form action="#" class="account-form-box">
+                            <h6>Login your account</h6>
+                            <div class="single-input">
+                                <input type="text" placeholder="Username">
+                            </div>
+                            <div class="single-input">
+                                <input type="password" placeholder="Password">
+                            </div>
+                            <div class="checkbox-wrap mt-10">
+                                <label class="label-for-checkbox inline mt-15">
+                                    <input class="input-checkbox" name="rememberme" type="checkbox" id="rememberme"
+                                           value="forever"> <span>Remember me</span>
+                                </label>
+                                <a href="#" class=" mt-10">Lost your password?</a>
+                            </div>
+                            <div class="button-box mt-25">
+                                <a href="#" class="btn btn--full btn--black">Log in</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="tab_list_07" role="tabpanel">
+
+                        <form action="#" class="account-form-box">
+                            <h6>Register An Account</h6>
+                            <div class="single-input">
+                                <input type="text" placeholder="Username">
+                            </div>
+                            <div class="single-input">
+                                <input type="text" placeholder="Email address">
+                            </div>
+                            <div class="single-input">
+                                <input type="password" placeholder="Password">
+                            </div>
+                            <p class="mt-15">Your personal data will be used to support your experience throughout this
+                                website, to manage access to your account, and for other purposes described in our <a
+                                    href="#" class="privacy-policy-link" target="_blank">privacy policy</a>.</p>
+                            <div class="button-box mt-25">
+                                <a href="#" class="btn btn--full btn--black">Register</a>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
