@@ -184,7 +184,7 @@
                                             <input
                                                 type="radio"
                                                 name="color"
-                                                value="{{ \App\Color::where('code', $color)->first()->name }}"
+                                                value="{{ \App\Color::where('code', $color)->where('tenacy_id', $product->tenacy_id)->first()->name }}"
                                                 @if($key == 0) checked @endif
                                             >
                                             <span class="aiz-megabox-elem rounded d-flex align-items-center justify-content-center p-1 mb-2">

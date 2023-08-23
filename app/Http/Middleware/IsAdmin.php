@@ -16,11 +16,12 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff')) {
-            return $next($request);
+        if (Auth::check()) {
+            $is_admin = is_admin();
+            if($is_admin) {
+                return $next($request);
+            }
         }
-        else{
-            abort(404);
-        }
+        abort(404);
     }
 }

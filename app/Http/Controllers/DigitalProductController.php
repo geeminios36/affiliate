@@ -109,7 +109,7 @@ class DigitalProductController extends Controller
             $product_translation->tenacy_id = get_tenacy_id_for_query(); $product_translation->save();
 
             flash(translate('Digital Product has been inserted successfully'))->success();
-            if(Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff'){
+            if(is_admin()){
                 return redirect()->route('digitalproducts.index');
             }
             else{
@@ -225,7 +225,7 @@ class DigitalProductController extends Controller
             $product_translation->tenacy_id = get_tenacy_id_for_query(); $product_translation->save();
 
             flash(translate('Digital Product has been updated successfully'))->success();
-            if(Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff'){
+            if(is_admin()){
                 return back();
             }
             else{

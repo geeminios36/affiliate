@@ -1,5 +1,7 @@
 <?php
 
+define('TENANT_ACTIVE', 1);
+
 return [
     'is_delivery_online' => true,
     'ghn' => 'ghn',

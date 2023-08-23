@@ -7,7 +7,8 @@
 <div class="">
     <form class="form form-horizontal mar-top" action="{{route('products.store')}}" method="POST" enctype="multipart/form-data" id="choice_form">
         <div class="row gutters-5">
-            <div class="col-lg-8">
+{{--            <div class="col-lg-8">--}}
+            <div class="col-lg-12">
                 @csrf
                 <input type="hidden" name="added_by" value="admin">
                 <div class="card">
@@ -348,7 +349,7 @@
 
             <div class="col-lg-4">
 
-                <div class="card">
+<!--                <div class="card">
                     <div class="card-header">
                         <h5 class="mb-0 h6">
                             {{translate('Shipping Configuration')}}
@@ -533,11 +534,11 @@
                             </label>
                             <select class="form-control aiz-selectpicker" name="flash_deal_id" id="flash_deal">
                                 <option value="">Choose Flash Title</option>
-                                @foreach(\App\FlashDeal::where("status", 1)->get() as $flash_deal)
-                                    <option value="{{ $flash_deal->id}}">
-                                        {{ $flash_deal->title }}
-                                    </option>
-                                @endforeach
+{{--                                @foreach(\App\FlashDeal::where("status", 1)->get() as $flash_deal)--}}
+{{--                                    <option value="{{ $flash_deal->id}}">--}}
+{{--                                        {{ $flash_deal->title }}--}}
+{{--                                    </option>--}}
+{{--                                @endforeach--}}
                             </select>
                         </div>
 
@@ -603,7 +604,7 @@
                         </div>
                         @endforeach
                     </div>
-                </div>
+                </div>-->
 
             </div>
             <div class="col-12">

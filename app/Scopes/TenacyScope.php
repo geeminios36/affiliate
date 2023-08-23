@@ -4,6 +4,7 @@ namespace App\Scopes;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Auth;
 
 class TenacyScope implements Scope
 {
@@ -16,6 +17,8 @@ class TenacyScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('tenacy_id', get_tenacy_id_for_query());
+        if(is_host()) {
+            $builder->where('tenacy_id', get_tenacy_id_for_query());
+        }
     }
 }

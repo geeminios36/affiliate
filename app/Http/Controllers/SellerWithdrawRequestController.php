@@ -119,7 +119,7 @@ class SellerWithdrawRequestController extends Controller
         if (Auth::user()->user_type == 'seller') {
             return view('frontend.partials.withdraw_message_modal', compact('seller_withdraw_request'));
         }
-        elseif (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
+        elseif (is_admin()) {
             return view('backend.sellers.seller_withdraw_requests.withdraw_message_modal', compact('seller_withdraw_request'));
         }
     }

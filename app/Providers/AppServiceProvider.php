@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use App\BusinessSetting;
 use App\Currency;
+use Illuminate\Support\Facades\App;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,5 +43,16 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
 
-    }
+    // });
+
+  }
+
+  /**
+   * Register any application services.
+   *
+   * @return void
+   */
+  public function register()
+  {
+  }
 }

@@ -24,7 +24,7 @@
                 <input type="hidden" name="lang" value="{{ $lang }}">
             	   @csrf
                 <div class="form-group row">
-                    <label class="col-md-3 col-from-label" for="name">{{translate('Name')}} <i class="las la-language text-danger" title="{{translate('Translatable')}}"></i></label>
+                    <label class="col-md-3 col-fro  m-label" for="name">{{translate('Name')}} <i class="las la-language text-danger" title="{{translate('Translatable')}}"></i></label>
                     <div class="col-md-9">
                         <input type="text" placeholder="{{translate('Name')}}" id="name" name="name" class="form-control" value="{{ $role->getTranslation('name', $lang) }}" required>
                     </div>
@@ -39,7 +39,38 @@
                 <div class="form-group row">
                     <label class="col-md-2 col-from-label" for="banner"></label>
                     <div class="col-md-8">
-                        @if (\App\Addon::where('unique_identifier', 'pos_system')->first() != null && \App\Addon::where('unique_identifier', 'pos_system')->first()->activated)
+
+                        {{-- render the list of permissions from permission_array varibale  --}}
+                        @foreach ($permissions_array as  $key=>$permission)
+                        @if($permission['identify'])
+                            @if (\App\Addon::where('unique_identifier', $key)->first() != null && \App\Addon::where('unique_identifier', $key)->first()->activated)
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <label class="col-from-label">{{translate($permission['label']) }}</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="aiz-switch aiz-switch-success mb-0">
+                                        <input type="checkbox" name="permissions[]" class="form-control demo-sw" value={{$permission['value']}} @php if(in_array($permission['value'], $permissions)) echo "checked"; @endphp>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            @endif
+                        @else
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <label class="col-from-label">{{translate($permission['label']) }}</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="aiz-switch aiz-switch-success mb-0">
+                                        <input type="checkbox"  name='permissions[]' class="form-control demo-sw" value={{$permission['value']}} @php if(in_array($permission['value'], $permissions)) echo "checked"; @endphp>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                           @endif
+                        @endforeach
+                        {{-- @if (\App\Addon::where('unique_identifier', 'pos_system')->first() != null && \App\Addon::where('unique_identifier', 'pos_system')->first()->activated)
                           <div class="row">
                               <div class="col-md-10">
                                   <label class="col-from-label">{{translate('POS System') }}</label>
@@ -317,7 +348,7 @@
                                     <span class="slider round"></span>
                                 </label>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="form-group mb-0 text-right">

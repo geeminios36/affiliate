@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use App;
+use Auth;
 
 class Language extends Model
 {
@@ -16,8 +17,6 @@ class Language extends Model
     protected static function boot()
     {
         parent::boot();
-
-        static::addGlobalScope(new \App\Scopes\TenacyScope);
 
         // Doc: https://viblo.asia/p/su-dung-model-observers-trong-laravel-oOVlYeQVl8W
         static::saving(function ($model) {

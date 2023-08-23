@@ -127,11 +127,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
         Route::get('/custom-pages/destroy/{id}', 'PageController@destroy')->name('custom-pages.destroy');
     });
 
-    Route::resource('roles', 'RoleController');
+    Route::resource('roles', 'RoleController')->middleware(['auth', 'factory']);
     Route::get('/roles/edit/{id}', 'RoleController@edit')->name('roles.edit');
     Route::get('/roles/destroy/{id}', 'RoleController@destroy')->name('roles.destroy');
 
+
     Route::resource('staffs', 'StaffController');
+    Route::get('/staffs/create', 'StaffController@create')->name('staffs.create');
+    Route::get('/staffs/edit/{id}', 'StaffController@edit')->name('staffs.edit');;
     Route::get('/staffs/destroy/{id}', 'StaffController@destroy')->name('staffs.destroy');
 
     Route::resource('flash_deals', 'FlashDealController');
@@ -344,4 +347,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
             Route::get('/connect', 'LazadaController@connect')->name('market_place.lazada.connect');
         });
     });
+
+    Route::resource('tenants', 'TenantManagerController');
+    Route::post('/tenants/status', 'TenantManagerController@updateStatus')->name('tenants.status');
+    Route::get('/tenants/destroy/{id}', 'TenantManagerController@destroy')->name('tenants.destroy');
 });

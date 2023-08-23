@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Tenant;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,15 +24,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         parent::boot();
 
-        static::addGlobalScope(new \App\Scopes\TenacyScope);
-
         // Doc: https://viblo.asia/p/su-dung-model-observers-trong-laravel-oOVlYeQVl8W
         static::saving(function ($model) {
             $model->tenacy_id = get_tenacy_id_for_query();
         });
     }
 
-     /**
+    /**
      * Set the keys for a save update query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -50,76 +49,76 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name', 'email', 'password', 'address', 'city', 'postal_code', 'phone', 'country', 'provider_id', 'email_verified_at', 'verification_code'
     ];
 
     /**
-    * The attributes that should be hidden for arrays.
-    *
-    * @var array
-    */
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
     public function wishlists()
     {
-    return $this->hasMany(Wishlist::class);
+        return $this->hasMany(Wishlist::class);
     }
 
     public function customer()
     {
-    return $this->hasOne(Customer::class);
+        return $this->hasOne(Customer::class);
     }
 
     public function seller()
     {
-    return $this->hasOne(Seller::class);
+        return $this->hasOne(Seller::class);
     }
 
     public function affiliate_user()
     {
-    return $this->hasOne(AffiliateUser::class);
+        return $this->hasOne(AffiliateUser::class);
     }
 
     public function affiliate_withdraw_request()
     {
-    return $this->hasMany(AffiliateWithdrawRequest::class);
+        return $this->hasMany(AffiliateWithdrawRequest::class);
     }
 
     public function products()
     {
-    return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class);
     }
 
     public function shop()
     {
-    return $this->hasOne(Shop::class);
+        return $this->hasOne(Shop::class);
     }
 
     public function staff()
     {
-    return $this->hasOne(Staff::class);
+        return $this->hasOne(Staff::class);
     }
 
     public function orders()
     {
-    return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class);
     }
 
     public function wallets()
     {
-    return $this->hasMany(Wallet::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Wallet::class)->orderBy('created_at', 'desc');
     }
 
     public function club_point()
     {
-    return $this->hasOne(ClubPoint::class);
+        return $this->hasOne(ClubPoint::class);
     }
 
     public function customer_package()
@@ -160,5 +159,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function affiliate_log()
     {
         return $this->hasMany(AffiliateLog::class);
+    }
+
+    // public function role()
+    // {
+    //     return $this->belongsTo(Role::class);
+    // }
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'host_id', 'id')->where('is_deleted', 0);
     }
 }
