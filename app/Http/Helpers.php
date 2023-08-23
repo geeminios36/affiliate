@@ -231,7 +231,7 @@ if (!function_exists('filter_products')) {
     function filter_products($products)
     {
         $verified_sellers = verified_sellers_id();
-        if (BusinessSetting::where('type', 'vendor_system_activation')->first()?->value == 1) {
+        if (BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1) {
             return $products->where('published', '1')->orderBy('created_at', 'desc')->where(function ($p) use ($verified_sellers) {
                 $p->where('added_by', 'admin')->orWhere(function ($q) use ($verified_sellers) {
                     $q->whereIn('user_id', $verified_sellers);
