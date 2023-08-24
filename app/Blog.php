@@ -10,7 +10,7 @@ class Blog extends Model
 {
     use SoftDeletes;
 
-   /**
+    /**
      * The "booting" method of the model.
      *
      * @return void
@@ -25,7 +25,6 @@ class Blog extends Model
         static::saving(function ($model) {
             $model->tenacy_id = get_tenacy_id_for_query();
         });
-        
     }
 
     /**
@@ -40,8 +39,12 @@ class Blog extends Model
 
         return $query;
     }
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(BlogCategory::class, 'category_id');
     }
-
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
