@@ -1615,5 +1615,14 @@ return
 		'Delivery Partner' => 'Delivery partner',
 		' Sell Express' => ' Sell Express',
 		'Sold Orders' => 'Sold Orders',
-
+        'Tenant' => 'Xưởng',
+        'All Tenant' => 'Stock manager',
+        'Add New Tenant' => 'New Stock',
+        'Host' => 'Host',
+        'Tenant Information' => 'Stock information',
+        'Tenant has been inserted successfully' => 'Stock created successfully',
+        'Tenant has been updated successfully' => 'Stock updated successfully',
+        'Tenant has been deleted successfully' => 'Stock deleted successfully',
+        'Code was taken' => 'Code was taken',
+        'User type' => 'User type',
 	];

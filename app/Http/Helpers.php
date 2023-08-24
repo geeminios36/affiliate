@@ -231,7 +231,7 @@ if (!function_exists('filter_products')) {
     function filter_products($products)
     {
         $verified_sellers = verified_sellers_id();
-        if (BusinessSetting::where('type', 'vendor_system_activation')->first()?->value == 1) {
+        if (BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1) {
             return $products->where('published', '1')->orderBy('created_at', 'desc')->where(function ($p) use ($verified_sellers) {
                 $p->where('added_by', 'admin')->orWhere(function ($q) use ($verified_sellers) {
                     $q->whereIn('user_id', $verified_sellers);
@@ -1086,7 +1086,7 @@ function hex2rgba($color, $opacity = false)
 if (!function_exists('isAdmin')) {
     function isAdmin()
     {
-        if (Auth::check() && (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff')) {
+        if (Auth::check() && (is_admin())) {
             return true;
         }
         return false;
@@ -1113,6 +1113,27 @@ if (!function_exists('isCustomer')) {
     }
 }
 
+if (!function_exists('isFactoryEmployee')) {
+    function isFactoryEmployee()
+    {
+        if (Auth::check() && (Auth::user()->user_type == 'staff' && Auth::user()->staff->role->name != 'Factory employee')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+if (!function_exists('isFactoryManager')) {
+    function isFactoryManager()
+    {
+        if (Auth::check() && (Auth::user()->user_type == 'staff' && Auth::user()->staff->role->name != 'Factory manager')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
 if (!function_exists('formatBytes')) {
     function formatBytes($bytes, $precision = 2)
     {
@@ -1385,10 +1406,12 @@ if (!function_exists('commission_calculation')) {
 if (!function_exists('get_tenacy_id_for_query')) {
     function get_tenacy_id_for_query()
     {
-        if (!empty(env('TENACY_ID'))) {
-            return env('TENACY_ID');
+        $tenant = \App\Models\Tenant::where('host_id', Auth::id())->where('is_deleted', 0)->first();
+        if ($tenant) {
+            return $tenant->code;
+        } else {
+            return 'all';
         }
-        return 'all';
     }
 }
 
@@ -1528,5 +1551,36 @@ function getTempUserId()
         }
     }
     return $tempUserId;
+}
+function is_super_admin(): bool
+{
+    if (Auth::check() && (Auth::user()->user_type == 'admin')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function is_admin(): bool
+{
+    if(Auth::check() && (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff' || Auth::user()->user_type == 'host')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function is_host(): bool
+{
+    if (Auth::check() && (Auth::user()->user_type == 'host')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function user_types(): array
+{
+    return [
+        'staff' => 'Nhân viên',
+        'host' => 'Quản lý xưởng',
+    ];
 }
 ?>

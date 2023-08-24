@@ -41,7 +41,7 @@ class PosController extends Controller
 
     public function index()
     {
-        if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
+        if (is_admin()) {
             $deliveryPartners = DeliveryPartners::withAndWhereHas('delivery_tenancy', function ($query) {
                 $query->where('status', 1);
             })->get();
@@ -59,7 +59,7 @@ class PosController extends Controller
 
     public function search(Request $request)
     {
-        if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
+        if (is_admin()) {
             $products = Product::where('added_by', 'admin')->where('published', '1');
         } else {
             $products = Product::where('user_id', Auth::user()->id)->where('published', '1');

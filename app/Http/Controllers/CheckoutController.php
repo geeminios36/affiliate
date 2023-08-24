@@ -95,7 +95,7 @@ class CheckoutController extends Controller
                     $voguePay = new VoguePayController;
                     return $voguePay->customer_showForm();
                 } elseif ($request->payment_option == 'payhere') {
-                    $order = Order::where('id', $request->session()->get('order_id'))->first();
+                    $order = Order::where('id', $request->session()->get('order_id'))->first();app
 
                     $order_id = $order->id;
                     $amount = $order->grand_total;

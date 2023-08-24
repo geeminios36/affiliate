@@ -24,8 +24,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Staff extends Model
 {
+    protected $guarded = [];
+    protected $fillable = ['user_id', 'role_id', 'tenacy_id', 'department_id'];
+    // public $timestamps = false;
     protected static function boot()
     {
+
         parent::boot();
         static::addGlobalScope(new \App\Scopes\TenacyScope);
 
@@ -33,5 +37,17 @@ class Staff extends Model
         static::saving(function ($model) {
             $model->tenacy_id = get_tenacy_id_for_query();
         });
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function department()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -53,7 +53,7 @@ class RefundRequestController extends Controller
     public function vendor_index()
     {
         $refunds = RefundRequest::where('seller_id', Auth::user()->id)->latest()->paginate(10);
-        if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
+        if (is_admin()) {
             return view('refund_request.frontend.recieved_refund_request.index', compact('refunds'));
         }
         else {
@@ -162,7 +162,7 @@ class RefundRequestController extends Controller
     public function request_approval_vendor(Request $request)
     {
         $refund = RefundRequest::where('id', $request->el)->first();
-        if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
+        if (is_admin()) {
             $refund->seller_approval = 1;
             $refund->admin_approval = 1;
         }
@@ -201,7 +201,7 @@ class RefundRequestController extends Controller
         $user = User::where('id', $refund->user_id)->first();
         $user->balance += $refund->refund_amount;
         $user->tenacy_id = get_tenacy_id_for_query(); $user->save();
-        if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
+        if (is_admin()) {
             $refund->admin_approval = 1;
             $refund->refund_status = 1;
         }
@@ -216,7 +216,7 @@ class RefundRequestController extends Controller
 
     public function reject_refund_request(Request $request){
       $refund = RefundRequest::where('id', $request->refund_id)->first();
-      if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
+      if (is_admin()) {
           $refund->admin_approval = 2;
           $refund->refund_status  = 2;
           $refund->reject_reason  = $request->reject_reason;
@@ -262,7 +262,7 @@ class RefundRequestController extends Controller
     public function reason_view($id)
     {
         $refund = RefundRequest::where('id', $id)->first();
-        if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
+        if (is_admin()) {
             if ($refund->orderDetail != null) {
                 $refund->admin_seen = 1;
                 $refund->save();

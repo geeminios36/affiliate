@@ -205,7 +205,7 @@ class ProductController extends Controller
         $product->unit = $request->unit;
         $product->min_qty = $request->min_qty;
         $product->low_stock_quantity = $request->low_stock_quantity;
-        $product->stock_visibility_state = $request->stock_visibility_state;
+        $product->stock_visibility_state = $request->stock_visibility_state ?? "";
 
         $tags = array();
         if($request->tags[0] != null){
@@ -441,7 +441,7 @@ class ProductController extends Controller
         Artisan::call('view:clear');
         Artisan::call('cache:clear');
 
-        if(Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff'){
+        if(is_admin()){
             return redirect()->route('products.admin');
         }
         else{
@@ -849,7 +849,7 @@ class ProductController extends Controller
             }
 
             flash(translate('Product has been duplicated successfully'))->success();
-            if(Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff'){
+            if(is_admin()){
               if($request->type == 'In House')
                 return redirect()->route('products.admin');
               elseif($request->type == 'Seller')

@@ -27,7 +27,6 @@ class Role extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope(new \App\Scopes\TenacyScope);
 
         // Doc: https://viblo.asia/p/su-dung-model-observers-trong-laravel-oOVlYeQVl8W
         static::saving(function ($model) {

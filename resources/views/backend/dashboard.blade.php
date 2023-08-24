@@ -11,7 +11,7 @@
         </div>
     @endif
     @if (Auth::user()->user_type == 'admin' ||
-            in_array('1', json_decode(Auth::user()->staff?->role?->permissions)))
+            in_array('1', json_decode(Auth::user()->staff->role->permissions)))
         <div class="row gutters-10">
             <div class="col-lg-6">
                 <div class="row gutters-10">
@@ -131,7 +131,7 @@
 
 
     @if (Auth::user()->user_type == 'admin' ||
-            in_array('1', json_decode(Auth::user()->staff?->role?->permissions)))
+            in_array('1', json_decode(Auth::user()->staff->role->permissions)))
         <div class="row gutters-10">
             <div class="col-md-6">
                 <div class="card">

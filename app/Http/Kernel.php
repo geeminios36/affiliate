@@ -6,7 +6,10 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsSeller;
 use App\Http\Middleware\IsUser;
 use App\Http\Middleware\CheckoutMiddleware;
+use App\Http\Middleware\IsFactory;
+use App\Http\Middleware\IsFactoryEmployee;
 use App\Http\Middleware\IsUnbanned;
+use GuzzleHttp\Promise\Is;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -62,6 +65,7 @@ class Kernel extends HttpKernel
         'admin' => IsAdmin::class,
         'seller' => IsSeller::class,
         'user' => IsUser::class,
+        'factory' => IsFactory::class,
         'unbanned' => IsUnbanned::class,
         'checkout' => CheckoutMiddleware::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
