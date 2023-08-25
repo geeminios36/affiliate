@@ -27,13 +27,15 @@ class StaffController extends Controller
 
         $staffs = [];
         if (Gate::allows('is-factory-people')) {
-            $staffs = Staff::where(
+            $query = Staff::where(
                 'department_id',
                 Auth::user()->staff->department_id
-            )->paginate(10);
+            );
         } else {
-            $staffs = Staff::paginate(10);
+            $query = Staff::where('user_id', '!=', Auth::id());
         }
+
+        $staffs = $query->paginate(10);
         return view('backend.staff.staffs.index', compact('staffs'));
     }
 
@@ -48,7 +50,7 @@ class StaffController extends Controller
             flash(translate('You have no permission to access this page'))->error();
             return back();
         }
-        $roles = Role::all();
+        $roles = $this->getRoles();
         return view('backend.staff.staffs.create', compact('roles'));
     }
 
@@ -132,7 +134,7 @@ class StaffController extends Controller
             return back();
         }
         $staff = Staff::where('id', decrypt($id))->first();
-        $roles = Role::all();
+        $roles = $this->getRoles();
         return view('backend.staff.staffs.edit', compact('staff', 'roles'));
     }
 
@@ -157,10 +159,8 @@ class StaffController extends Controller
         if (strlen($request->password) > 0) {
             $user->password = Hash::make($request->password);
         }
-        $user->tenacy_id = get_tenacy_id_for_query();
         if ($user->save()) {
             $staff->role_id = $request->role_id;
-            $staff->tenacy_id = get_tenacy_id_for_query();
             if ($staff->save()) {
                 flash(translate('Staff has been updated successfully'))->success();
                 return redirect()->route('staffs.index');
@@ -191,5 +191,18 @@ class StaffController extends Controller
 
         flash(translate('Something went wrong'))->error();
         return back();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getRoles()
+    {
+        $roles = Role::query();
+        if (is_using_tenacy_id()) {
+            $roles = $roles->where('tenacy_id', get_tenacy_id_for_query());
+        }
+        $roles = $roles->get();
+        return $roles;
     }
 }

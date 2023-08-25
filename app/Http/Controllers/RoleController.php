@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Role;
 use App\RoleTranslation;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class RoleController extends Controller
@@ -138,8 +139,11 @@ class RoleController extends Controller
     ];
     public function index()
     {
-
-        $roles = Role::paginate(10);
+        $roles = Role::query();
+        if(is_host()) {
+            $roles->where('tenacy_id', Auth::user()->tenacy_id);
+        }
+        $roles = $roles->paginate(10);
         return view('backend.staff.staff_roles.index', compact('roles'));
     }
 

@@ -7,11 +7,13 @@
         <div class="col-md-6">
             <h1 class="h3">{{translate('Config Commission')}}</h1>
         </div>
-        <div class="col-md-6 text-md-right">
-            <a href="{{ route('config_commission.create') }}" class="btn btn-circle btn-info">
-                <span>{{translate('Add Config Commission')}}</span>
-            </a>
-        </div>
+        @if(is_super_admin())
+            <div class="col-md-6 text-md-right">
+                <a href="{{ route('config_commission.create') }}" class="btn btn-circle btn-info">
+                    <span>{{translate('Add Config Commission')}}</span>
+                </a>
+            </div>
+        @endif
     </div>
 </div>
 
@@ -34,7 +36,9 @@
                         <th>{{translate('Factory')}}</th>
                         <th>{{translate('Remunerate')}}</th>
                         <th>{{translate('Stock')}}</th>
-                        <th>{{translate('Options')}}</th>
+                        @if(is_super_admin())
+                            <th>{{translate('Options')}}</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -47,7 +51,8 @@
                         <td>{{ $configCommission->factory_commission }} %</td>
                         <td>{{ $configCommission->remunerate_commission }} %</td>
                         <td>{{ $configCommission->stock_commission }} %</td>
-                        <td class="text-center">
+                        @if(is_super_admin())
+                            <td class="text-center">
                                 <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="{{route('config_commission.destroy', $configCommission->id)}}" title="{{translate('Delete') }}">
                                     <i class="las la-trash"></i>
                                 </a>
@@ -55,6 +60,7 @@
                                     <i class="las la-edit"></i>
                                 </a>
                             </td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>
