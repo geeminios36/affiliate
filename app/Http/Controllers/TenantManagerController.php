@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tenant;
+use App\Staff;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -52,8 +53,16 @@ class TenantManagerController extends Controller
         $tenant->host_id = $request->host_id;
         $tenant->status  = $request->status ?? 0;
 
-
         $tenant->save();
+
+        if(!empty($tenant->host_id)) {
+            User::where('id', $tenant->host_id)->update([
+                'tenacy_id' => $tenant->code
+            ]);
+            Staff::where('user_id', $tenant->host_id)->update([
+                'tenacy_id' => $tenant->code
+            ]);
+        }
 
         flash(translate('Tenant has been inserted successfully'))->success();
         return redirect()->route('tenants.index');
@@ -105,8 +114,16 @@ class TenantManagerController extends Controller
         $tenant->host_id = $request->host_id;
         $tenant->status  = $request->status ?? 0;
 
-
         $tenant->save();
+
+        if(!empty($tenant->host_id)) {
+            User::where('id', $tenant->host_id)->update([
+                'tenacy_id' => $tenant->code
+            ]);
+            Staff::where('user_id', $tenant->host_id)->update([
+                'tenacy_id' => $tenant->code
+            ]);
+        }
 
         flash(translate('Tenant has been updated successfully'))->success();
         return back();

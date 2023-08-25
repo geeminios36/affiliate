@@ -18,11 +18,9 @@ class Staff extends Model
     {
         parent::boot();
 
-        // Doc: https://viblo.asia/p/su-dung-model-observers-trong-laravel-oOVlYeQVl8W
-//        static::saving(function ($model) {
-//            $model->tenacy_id = get_tenacy_id_for_query();
-//            $model->save();
-//        });
+        if(is_using_tenacy_id()) {
+            static::addGlobalScope(new \App\Scopes\TenacyScope);
+        }
     }
 
     /**
