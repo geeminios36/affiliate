@@ -308,8 +308,8 @@ class HomeController extends Controller
     public function product(Request $request, $slug)
     {
         $detailedProduct  = Product::where('slug', $slug)
-            ->with(['category' => function($query) use ($slug){
-                $query->with(['products' => function($q) use ($slug) {
+            ->with(['category' => function ($query) use ($slug) {
+                $query->with(['products' => function ($q) use ($slug) {
                     $q->where('slug', '<>', $slug)->limit(7);
                 }]);
             }])

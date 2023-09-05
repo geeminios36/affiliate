@@ -1583,4 +1583,3 @@ function user_types(): array
         'host' => 'Quản lý xưởng',
     ];
 }
-?>
