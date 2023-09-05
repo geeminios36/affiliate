@@ -161,6 +161,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(AffiliateLog::class);
     }
 
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class);
+
+
     // public function role()
     // {
     //     return $this->belongsTo(Role::class);
@@ -169,5 +174,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function tenant()
     {
         return $this->belongsTo(Tenant::class, 'host_id', 'id')->where('is_deleted', 0);
+
     }
 }
