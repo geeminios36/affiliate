@@ -82,10 +82,10 @@
                                             </a></h6>
                                         <div class="meta-tag-box">
                                             <div class="meta date">
-                                                <span>{{ $blog->created_at }}</span>
+                                                <span>{{ format_date($blog->created_at) }}</span>
                                             </div>
                                             <div class="meta author"><span><a
-                                                        href="#">Hastheme</a></span>
+                                                        href="#">{{ $blog->user->name }}</a></span>
                                             </div>
                                             <div class="meta cat"><span>in <a
                                                         href="#">{{ $blog->category ? $blog->category->category_name : 'category' }}</a></span>
