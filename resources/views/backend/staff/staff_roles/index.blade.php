@@ -34,12 +34,14 @@
                         <td>{{ ($key+1) + ($roles->currentPage() - 1)*$roles->perPage() }}</td>
                         <td>{{ $role->getTranslation('name')}}</td>
                         <td class="text-right">
-                            <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('roles.edit', ['id'=>$role->id, 'lang'=>env('DEFAULT_LANGUAGE')] )}}" title="{{translate('Edit') }}">
-                                <i class="las la-edit"></i>
-                            </a>
-                            <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="{{route('roles.destroy', $role->id)}}" title="{{translate('Delete') }}">
-                                <i class="las la-trash"></i>
-                            </a>
+                            @if(!in_array($role->name, roleNameCanNotDelete()))
+                                <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('roles.edit', ['id'=>$role->id, 'lang'=>env('DEFAULT_LANGUAGE')] )}}" title="{{translate('Edit') }}">
+                                    <i class="las la-edit"></i>
+                                </a>
+                                <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="{{route('roles.destroy', $role->id)}}" title="{{translate('Delete') }}">
+                                    <i class="las la-trash"></i>
+                                </a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

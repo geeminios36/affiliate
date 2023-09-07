@@ -1605,4 +1605,10 @@ function user_types(): array
         'host_staff' => 'Nhân viên xưởng',
     ];
 }
+function roleNameCanNotDelete(): array
+{
+    return [
+        "Quản lý xưởng",
+    ];
+}
 ?>
