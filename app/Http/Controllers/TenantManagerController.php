@@ -71,7 +71,7 @@ class TenantManagerController extends Controller
                 'unique_identifier' => 'offline_payment',
                 'version' => '1.0',
                 'activated' => 1,
-                'image' => '',
+                'image' => 'offline_banner.jpg',
                 'tenacy_id' => $tenant->code,
             ]);
         }
