@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Addon;
 use App\Models\Tenant;
 use App\Staff;
 use App\User;
@@ -36,7 +37,10 @@ class TenantManagerController extends Controller
      */
     public function create()
     {
-        $users = User::where('user_type', 'host')->where('banned', 0)->get();
+        $userIdHosted = Tenant::select('host_id')->get()->pluck('host_id')->toArray();
+        $users = User::where('user_type', 'host')
+            ->whereNotIn('id', $userIdHosted)
+            ->where('banned', 0)->get();
         return view('backend.tenants.create', compact('users'));
     }
 
@@ -61,6 +65,14 @@ class TenantManagerController extends Controller
             ]);
             Staff::where('user_id', $tenant->host_id)->update([
                 'tenacy_id' => $tenant->code
+            ]);
+            Addon::create([
+                'name' => 'Offline Payment',
+                'unique_identifier' => 'offline_payment',
+                'version' => '1.0',
+                'activated' => 1,
+                'image' => '',
+                'tenacy_id' => $tenant->code,
             ]);
         }
 
@@ -88,7 +100,11 @@ class TenantManagerController extends Controller
     {
         $tenant = Tenant::where('id', $id)->first();
 
-        $users = User::where('user_type', 'host')->where('banned', 0)->get();
+        $userIdHosted = Tenant::select('host_id')
+            ->where('host_id', '!=', $tenant->host_id)
+            ->get()->pluck('host_id')->toArray();
+        $users = User::where('user_type', 'host')
+            ->whereNotIn('id', $userIdHosted)->where('banned', 0)->get();
 
         return view('backend.tenants.edit', compact('tenant', 'users'));
     }
@@ -101,16 +117,8 @@ class TenantManagerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate(
-            [
-                'code' => ['required', 'max:50', Rule::unique(Tenant::class, 'code')->ignore($id)],
-            ],
-            [
-                'unique' => translate('Code was taken'),
-            ]);
         $tenant          = Tenant::where('id', $id)->first();
         $tenant->name    = $request->name;
-        $tenant->code    = $request->code;
         $tenant->host_id = $request->host_id;
         $tenant->status  = $request->status ?? 0;
 
