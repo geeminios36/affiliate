@@ -247,7 +247,7 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $role = Role::where('id', $id)->first();
+        $role = Role::where('id', $id)->whereNotIn('name', roleNameCanNotDelete())->first();
         foreach ($role->role_translations as $key => $role_translation) {
             $role_translation->delete();
         }

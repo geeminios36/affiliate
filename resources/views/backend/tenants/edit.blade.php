@@ -24,12 +24,6 @@
                     <input name="_method" type="hidden" value="PATCH">
                 	@csrf
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">{{translate('Code')}} </label>
-                        <div class="col-md-9">
-                            <input type="text" placeholder="{{translate('Code')}}..." value="{{ $tenant->code }}" id="code" name="code" class="form-control" maxlength="50" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
                         <label class="col-md-3 col-form-label">{{translate('Name')}} </label>
                         <div class="col-md-9">
                             <input type="text" name="name" value="{{ $tenant->name }}" class="form-control" id="name" placeholder="{{translate('Name')}}" maxlength="255" required>
