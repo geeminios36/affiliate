@@ -1576,10 +1576,38 @@ function is_host(): bool
         return false;
     }
 }
+function is_host_staff(): bool
+{
+    if (Auth::check() && (Auth::user()->user_type == 'host_staff')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function is_using_tenacy_id(): bool
+{
+    if (Auth::check() && (Auth::user()->user_type == 'host_staff' || Auth::user()->user_type == 'host')) {
+        return true;
+    } else {
+        return false;
+    }
+}
 function user_types(): array
 {
+    if(is_host()) {
+        return [
+            'host_staff' => 'Nhân viên xưởng',
+        ];
+    }
     return [
         'staff' => 'Nhân viên',
         'host' => 'Quản lý xưởng',
+        'host_staff' => 'Nhân viên xưởng',
+    ];
+}
+function roleNameCanNotDelete(): array
+{
+    return [
+        "Quản lý xưởng",
     ];
 }

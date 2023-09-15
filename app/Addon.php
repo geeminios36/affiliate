@@ -20,7 +20,9 @@ class Addon extends Model
 
         // Doc: https://viblo.asia/p/su-dung-model-observers-trong-laravel-oOVlYeQVl8W
         static::saving(function ($model) {
-            $model->tenacy_id = get_tenacy_id_for_query();
+            if(empty($model->tenacy_id)) {
+                $model->tenacy_id = get_tenacy_id_for_query();
+            }
         });
     }
 
@@ -36,4 +38,15 @@ class Addon extends Model
 
         return $query;
     }
+
+    protected $fillable = [
+        'name',
+        'unique_identifier',
+        'version',
+        'activated',
+        'image',
+        'created_at',
+        'updated_at',
+        'tenacy_id',
+    ];
 }
