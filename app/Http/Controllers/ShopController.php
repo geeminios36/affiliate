@@ -7,6 +7,7 @@ use App\Shop;
 use App\User;
 use App\Seller;
 use App\BusinessSetting;
+use App\Models\Category;
 use App\Models\Product;
 use Auth;
 use Hash;
@@ -249,26 +250,57 @@ class ShopController extends Controller
 
     public function shop_detail()
     {
-
-        return view('frontend.shop.detail');
+        $categories = Category::all(['id', 'name']);
+        return view('frontend.shop.detail', compact('categories'));
     }
 
     public function show_products(Request $request)
     {
 
-        if ($request->query('sort_by')) {
-            if ($request->query('sort_by') == 'price') {
-                $products = Product::where('user_id', 9)->orderBy($request->query('sort_by'), $request->query('key'));
-            } else {
-                $products = Product::where('user_id', 9)->orderBy($request->query('sort_by'));
+        try {
+            $products = Product::where('user_id', 9);;
+            $search = $request->getQueryString();
+            if ($request->query('sort_by')) {
+                $products =  $products->orderBy($request->query('sort_by'), $request->query('key'));
             }
-        } else {
-            $products = Product::where('user_id', 9);
+            if ($request->query('categories')) {
+                $products = $this->filterByCategoryId($products, $request->query('categories'));
+            }
+            if ($request->query('unit_price')) {
+                $numbers = preg_split('/[\s,-]+/', $request->query('unit_price'));
+                $products = $this->filterByUnitPrice($products, $numbers);
+            }
+
+
+            return view('frontend.shop.columns.products', compact('products'))->render();
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false, 'message' => $th->getMessage()]);
         }
-        return view('frontend.shop.columns.products', compact('products'))->render();
+    }
+
+    public function filterByUnitPrice($product, $values)
+    {
+        if (count($values) > 1) {
+            $max = max($values);
+            $min = min($values);
+            $values = [$min, $max];
+        }
+
+        if (count($values) == 2) {
+            $product = $product->where('unit_price', '>=', $values[0])->where('unit_price', '<=', $values[1]);
+        } else {
+            $product = $product->where('unit_price', '>=', $values[0]);
+        }
+        return  $product;
+    }
+
+    public function filterByCategoryId($products, $value)
+    {
+        return $products->whereIn('category_id', explode('%2C', $value[0]));
     }
     public function filter_product_shop(Request $request)
     {
+
         $body = $request->all();
         $products = Product::where('user_id', 9)->orderBy($body['column'], $body['value']);
 

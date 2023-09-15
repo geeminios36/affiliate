@@ -49,17 +49,17 @@
                             <div class="shop-toolbar__item shop-short-by">
                                 <ul>
                                     <li>
-                                        <a href="#">Sort by <i
+                                        <a>Sort by <i
                                                 class="fa fa-angle-down angle-down"></i></a>
                                         <ul class="sorting_options">
-                                            <li class="active">
+                                            <li>
                                                 <a class="sort-link" data-sort_by=""
                                                     data-sort_key="">Default
                                                     sorting</a>
                                             </li>
-                                            <li><a href="#">Sort by
+                                            <li><a class="sort-link">Sort by
                                                     popularity</a></li>
-                                            <li><a href="#">Sort by
+                                            <li><a class="sort-link">Sort by
                                                     average rating</a></li>
                                             <li><a class="sort-link"
                                                     data-sort_by="created_at"
@@ -83,7 +83,9 @@
                                     </li>
 
                                 </ul>
+                                <div id="filter-items" class="py-2 my-2">
 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -135,33 +137,49 @@
                     </div>
                 </div>
                 <div class="product-filter-wrapper">
-                    <form method="POST" class="row">
+                    <div class="d-flex mb-2">
+                        <a id="clear-btn"
+                            class=" ml-auto btn btn-primary text-white rounded-2">Clear</a>
+                    </div>
+                    <div class="row">
                         <!-- Product Filter -->
                         <div class=" mb-20 col__20">
                             <div class="product-filter">
                                 <h5>Color</h5>
                                 <ul class="widget-nav-list">
-                                    <li><label for="color-black"><span
+                                    <li>
+                                        <div class="filter-item" data-column='color'
+                                            data-value='black'><span
                                                 class="swatch-color black"></span>
-                                            <input type="checkbox"
-                                                name="color.black" hidden
-                                                id="color-black">
-                                            Black</label></li>
-                                    <li><a href="#"><span
+
+                                            Black</div>
+                                    </li>
+                                    <li>
+                                        <div class="filter-item" data-column='color'
+                                            data-value='green'><span
                                                 class="swatch-color green"></span>
-                                            Green</a></li>
-                                    <li><a href="#"><span
-                                                class="swatch-color grey"></span>
-                                            Grey</a></li>
-                                    <li><a href="#"><span
-                                                class="swatch-color red"></span>
-                                            Red</a></li>
-                                    <li><a href="#"><span
+                                            Green</div>
+                                    </li>
+                                    <li>
+                                        <div><span class="swatch-color grey"></span>
+                                            Grey</div>
+                                    </li>
+                                    <li>
+                                        <div><span class="swatch-color red"></span>
+                                            Red</div>
+                                    </li>
+                                    <li>
+                                        <div class="filter-item" data-column='color'
+                                            data-value='white'><span
                                                 class="swatch-color white"></span>
-                                            White</a></li>
-                                    <li><a href="#"><span
+                                            White</div>
+                                    </li>
+                                    <li>
+                                        <div class="filter-item" data-column=''
+                                            data-value=''><span
                                                 class="swatch-color yellow"></span>
-                                            Yellow</a></li>
+                                            Yellow</div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -170,9 +188,21 @@
                             <div class="product-filter">
                                 <h5>Size</h5>
                                 <ul class="widget-nav-list">
-                                    <li><a href="#">Large</a></li>
-                                    <li><a href="#">Medium</a></li>
-                                    <li><a href="#">Small</a></li>
+                                    <li>
+                                        <div class="filter-item" data-column=''
+                                            data-value=''>Large
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="filter-item" data-column=''
+                                            data-value=''>Medium
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="filter-item" data-column=''
+                                            data-value=''>Small
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -181,51 +211,76 @@
                             <div class="product-filter">
                                 <h5>Price</h5>
                                 <ul class="widget-nav-list">
-                                    <li><a href="#">$0.00 - $20.00</a>
+                                    <li>
+                                        <div class="filter-item"
+                                            data-column='unit_price'
+                                            data-value='0-20000'>0 - 20.000</div>
                                     </li>
-                                    <li><a href="#">$20.00 - $40.00</a>
+                                    <li>
+                                        <div class="filter-item"
+                                            data-column='unit_price'
+                                            data-value='20000-100000'>20.000 -
+                                            100.000
+                                        </div>
                                     </li>
-                                    <li><a href="#">£40.00 - £50.00</a>
+                                    <li>
+                                        <div class="filter-item"
+                                            data-column='unit_price'
+                                            data-value='100000-200000'>
+                                            100.000-200.000</div>
                                     </li>
-                                    <li><a href="#">£50.00 - £60.00</a>
+                                    <li>
+                                        <div class="filter-item"
+                                            data-column='unit_price'
+                                            data-value='500000-600000'>500.000 -
+                                            600.000</div>
                                     </li>
-                                    <li><a href="#">£60.00 +</a></li>
+                                    <li>
+                                        <div class="filter-item"
+                                            data-column='unit_price'
+                                            data-value='600000'> > 600.000</div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                         <!-- Product Filter -->
-                        <div class=" mb-20 col__20">
-                            <div class="product-filter">
-                                <h5>Categories</h5>
-                                <ul class="widget-nav-list">
-                                    <li><a href="#">All</a></li>
-                                    <li><a href="#">Accessories</a></li>
-                                    <li><a href="#">Chair</a></li>
-                                    <li><a href="#">Decoration</a></li>
-                                    <li><a href="#">Furniture</a></li>
-                                    <li><a href="#">Table</a></li>
-                                </ul>
-                            </div>
-                        </div>
+
                         <div class=" mb-20 col__20">
                             <div class="product-filter">
                                 <h5>Tags</h5>
-                                <div class="tagcloud"><a href="#"
-                                        class="selected">All</a><a href="#"
+                                <div class="tagcloud"><a
+                                        class="selected">All</a><a
                                         class="">Accesssories</a><a
-                                        href="#" class="">Box</a><a
-                                        href="#" class="">chair</a><a
-                                        href="#" class="">Deco</a><a
-                                        href="#"
+                                        class="">Box</a><a
+                                        class="">chair</a><a
+                                        class="">Deco</a><a
                                         class="">Furniture</a><a
-                                        href="#" class="">Glass</a><a
-                                        href="#"
+                                        class="">Glass</a><a
                                         class="">Pottery</a><a
-                                        href="#" class="">Table</a>
+                                        class="">Table</a>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                        <div class=" mb-20 col-12">
+                            <div class="product-filter">
+                                <h5>Categories</h5>
+                                <ul class="widget-nav-list row">
+                                    @foreach ($categories as $category)
+                                        <li class="col-6 col-md-4 col-lg-3">
+                                            <div class="filter-item"
+                                                data-column='categories'
+                                                data-value='{{ $category->id }}'
+                                                data-output='{{ $category->name }}'>
+                                                {{ $category->name }}
+                                            </div>
+                                        </li>
+                                    @endforeach
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
                 <div class="tab-content" id="layouts-container">
@@ -244,24 +299,64 @@
         });
 
         function showProducts() {
+            const search_queries = window.location.search || ''
             let url = "{{ route('show-product-shop') }}";
-            $.get(url, function(data) {
-                renderData(data);
-                window.history.pushState("", "",
-                    `/shop`
-                );
 
-            })
+            $.ajax({
+                'url': url + search_queries,
+                'type': 'GET',
+                success: function(
+                    response) { // What to do if we succeed
+                    renderData(response);
+                },
+
+            });
         }
+
         $('.sorting_options a').on('click', (function(e) {
 
-            if (!$(this).data('sort_by') || !$(this).data('sort_key')) {
-                showProducts();
-                return;
+
+            const sort_by = $(this).data('sort_by');
+            const key = $(this).data('sort_key');
+            const search = window.location.search
+
+
+            if (!search) {
+                window.location.href += `?sort_by=${sort_by}&key=${key}`
+                return
             }
-            filter($(this).data('sort_by'), $(
-                this).data(
-                'sort_key'))
+            let href = window.location.href
+            if (search.startsWith('?sort_by')) {
+                const indexOfFirst = search
+                    .indexOf('&')
+
+                const indexOfSecond = search
+                    .indexOf('&', indexOfFirst + 1)
+                let old_query = ''
+                if (indexOfSecond !== -1) {
+                    old_query = search.slice(0,
+                        indexOfSecond)
+
+                } else {
+                    old_query = search.slice(0,
+                        search.length)
+                }
+                const query = `?sort_by=${sort_by}&key=${key}`
+                href = href
+                    .replace(old_query, query)
+
+            } else {
+                const indexStart = search.indexOf(
+                    '&sort_by')
+                const old_query = search.slice(indexStart,
+                    search.length)
+                const query = `&sort_by=${sort_by}&key=${key}`
+                href = href
+                    .replace(old_query,
+                        query)
+            }
+            window.location.href = href
+
 
         }))
 
@@ -270,27 +365,165 @@
 
         }
 
-        function filter(column = '', value = '') {
-            let url =
-                `{{ route('filter-product-shop') }}`;
-            const data = {
-                column,
-                value
-            }
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data,
-                success: function(response) {
-                    if (response.success) {
-                        renderData(response.view);
+        let data = {
+            unit_price: [],
+            color: [],
+            size: [],
+            categories: [],
+            tags: []
+        }
 
-                        window.history.pushState("", "",
-                            `?sort_by=${column}&sort_key=${value}`
-                        );
-                    }
-                },
-            });
+        let output = {
+            unit_price: [],
+            color: [],
+            size: [],
+            categories: [],
+            tags: []
+        }
+
+        function renderFilterItems() {
+            const values = getValuesFromObject()
+            let html;
+            html = values.map(value => {
+                return `<span class=" p-1 rounded-2 bg-light text-primary mx-1" data-column='' data-value=''>${value}</span>`
+            })
+            $('#filter-items').html(html);
+
+        }
+        let count = 10;
+        let time
+        $('#clear-btn').on('click', function() {
+            if (window.location.search) {
+                window.location.href = window.location.origin + window
+                    .location
+                    .pathname
+            }
+            output = {
+                unit_price: [],
+                color: [],
+                size: [],
+                categories: [],
+                tags: []
+            }
+            clearInterval(time)
+            console.log('count', count)
+            renderFilterItems();
+
+        })
+
+        $('.filter-item').on('click', function() {
+            count = 10;
+            clearInterval(time)
+            time = setInterval(function() {
+                console.log('count', count)
+
+                if (count === 0) {
+                    clearInterval(time);
+                    filterProduct()
+                }
+                count--;
+            }, 1000);
+            const url = window.location.href;
+            const column = $(this).data('column');
+            const value = $(this).data('value');
+            const output = $(this).data('output');
+            if (column === 'categories') {
+                combineCategories(value, output)
+            }
+            if (column === 'unit_price') {
+                combineUnitPrice(value)
+            }
+
+
+            renderFilterItems();
+        })
+
+
+
+        function combineCategories(value = '', input = '') {
+            if (data.categories.includes(value)) {
+                data.categories = data.categories?.filter(item =>
+                    item !==
+                    value)
+                output.categories = output.categories?.filter(
+                    item => item !==
+                    input)
+            } else {
+                data?.categories?.push(value)
+                output?.categories?.push(input)
+            }
+        }
+
+        function combineUnitPrice(input = '') {
+            if (output.unit_price.includes(input)) {
+                data.unit_price = data.unit_price?.filter(item => item !==
+                    input)
+                output.unit_price = data.unit_price?.filter(item => item !==
+                    input)
+            } else {
+                data?.unit_price?.push(input)
+                output.unit_price.push(input)
+            }
+        }
+
+        function filterProduct() {
+
+            const keys = getColumnsHaveValues()
+            let filter_query = ''
+            for (let index = 0; index < keys.length; index++) {
+                const key = keys[index];
+                const values = data[key];
+                if (filter_query === '') {
+                    filter_query += `${key}=${values}`
+                    continue
+                }
+                filter_query += `&${key}=${values}`
+            }
+            const search = window.location.search
+            if (!search.includes('sort_by')) {
+                window.location.href += `?${filter_query}`
+                return
+            }
+
+            let href = ''
+            if (search.startsWith('?sort_by')) {
+
+                const query = `&${filter_query}`
+                const indexOfFirst = search
+                    .indexOf('&')
+
+                const indexOfSecond = search
+                    .indexOf('&', indexOfFirst + 1)
+
+                if (indexOfSecond === -1) {
+                    href = search + query
+                } else {
+                    href = search.slice(0, indexOfSecond) + query
+                }
+
+
+            } else {
+                const query = `?${filter_query}`
+
+                const start = search.indexOf(
+                    '&sort_by')
+
+                href = query + search.slice(start, search.length)
+
+
+            }
+            window.location.href = href
+        }
+
+
+
+        function getValuesFromObject() {
+            return Object.values(output).flat();
+        }
+
+        function getColumnsHaveValues() {
+            return Object.keys(data).filter(key => data[
+                key].length > 0);
         }
     </script>
 @endsection
