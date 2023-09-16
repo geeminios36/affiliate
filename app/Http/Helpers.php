@@ -1611,4 +1611,3 @@ function roleNameCanNotDelete(): array
         "Quản lý xưởng",
     ];
 }
-?>
