@@ -69,9 +69,17 @@
                                             data-bs-toggle="tab"><i
                                                 class="fa fa-user"></i> Account
                                             Details</a>
-                                        <a href="login.html"><i
-                                                class="fa fa-sign-out"></i>
-                                            Logout</a>
+
+                                        <a href="{{ route('dashboard.logout') }}"
+                                            onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+                                            Logout
+                                        </a>
+                                        <form id="frm-logout"
+                                            action="{{ route('dashboard.logout') }}"
+                                            method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+
                                     </div>
                                 </div>
                                 <!-- My Account Tab Menu End -->
