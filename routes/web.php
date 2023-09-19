@@ -101,6 +101,7 @@ Route::get('/product/{slug}', 'HomeController@product')->name('product');
 Route::get('/category/{category_slug}', 'HomeController@listingByCategory')->name('products.category');
 Route::get('/brand/{brand_slug}', 'HomeController@listingByBrand')->name('products.brand');
 Route::post('/product/variant_price', 'HomeController@variant_price')->name('products.variant_price');
+
 Route::get('/shop/{slug}', 'HomeController@shop')->name('shop.visit');
 Route::get('/shop/{slug}/{type}', 'HomeController@filter_shop')->name('shop.visit.type');
 
@@ -280,6 +281,11 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::resource('shops', 'ShopController');
+// Route::get('show-products-on-3-layouts', 'ShopController@show3Layouts')->name('show-products-on-3-layouts');
+
+Route::get('shop', 'ShopController@shop_detail')->name('shop-detail');
+Route::get('show-products-shop', 'ShopController@show_products')->name('show-product-shop');
+Route::post('filter-products-shop', 'ShopController@filter_product_shop')->name('filter-product-shop');
 Route::get('/track-your-order', 'HomeController@trackOrder')->name('orders.track');
 
 Route::get('/instamojo/payment/pay-success', 'InstamojoController@success')->name('instamojo.success');
