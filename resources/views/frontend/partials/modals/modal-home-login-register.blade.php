@@ -5,20 +5,21 @@
             <div class="modal-box-wrapper">
                 <div class="helendo-tabs">
                     <ul class="nav" role="tablist">
-                        <li class="tab__item nav-item active">
+                        <li id="tab-item-login"
+                            class="tab__item nav-item active">
                             <a class="nav-link active" data-bs-toggle="tab"
-                                href="#tab_list_06" role="tab">Login</a>
+                                href="#tab_login" role="tab">Login</a>
                         </li>
-                        <li class="tab__item nav-item">
+                        <li id="tab-item-register" class="tab__item nav-item">
                             <a class="nav-link" data-bs-toggle="tab"
-                                href="#tab_list_07" role="tab">Our
+                                href="#tab_register" role="tab">Our
                                 Register</a>
                         </li>
 
                     </ul>
                 </div>
                 <div class="tab-content content-modal-box">
-                    <div class="tab-pane fade show active" id="tab_list_06"
+                    <div class="tab-pane fade show active" id="tab_login"
                         role="tabpanel">
                         <form autocomplete="on" class="account-form-box">
                             <h6>Login your account</h6>
@@ -52,7 +53,8 @@
                             </div>
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="tab_list_07" role="tabpanel">
+                    <div class="tab-pane fade" id="tab_register"
+                        role="tabpanel">
 
                         <form autocomplete="on" id="registration_form"
                             class="account-form-box">

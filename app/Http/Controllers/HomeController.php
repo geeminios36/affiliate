@@ -150,9 +150,9 @@ class HomeController extends Controller
             }
 
             $user = new User;
-            $user->name = $request->name;
+            $user->name = $request->username;
             $user->email = $request->email;
-            $user->user_type = "seller";
+            $user->user_type = "customer";
             $user->password = Hash::make($request->password);
             $user->tenacy_id = get_tenacy_id_for_query();
 
@@ -164,19 +164,11 @@ class HomeController extends Controller
                     $user->notify(new EmailVerificationNotification());
                 }
 
-                $user->tenacy_id = get_tenacy_id_for_query();
                 $user->save();
-
-                $seller = new Seller;
-                $seller->user_id = $user->id;
-
-                if ($seller->save()) {
-                    $shop = new Shop;
-                    $shop->user_id = $user->id;
-                    $shop->slug = 'demo-shop-' . $user->id;
-                    $shop->tenacy_id = get_tenacy_id_for_query();
-                    $shop->save();
-
+                $customer = new Customer();
+                $customer->user_id = $user->id;
+                $customer->tenacy_id = get_tenacy_id_for_query();
+                if ($customer->save()) {
                     return response()->json(['success' => true, 'message' => 'Register successfully']);
                 }
             }

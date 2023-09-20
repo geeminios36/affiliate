@@ -132,9 +132,17 @@
                 if (data.success) {
                     toastr.success(
                         data.message)
-                    setRoutingOnUserIcon()
+                    switchToLoginForm()
+
                 }
             })
+        }
+
+        function switchToLoginForm() {
+            $('#tab-item-login .nav-link').addClass('active');
+            $('#tab_login').addClass('active');
+            $('#tab-item-register .nav-link').removeClass('active');
+            $('#tab_register').removeClass('active');
         }
 
         function home_login() {
@@ -154,7 +162,9 @@
                 if (data.success) {
                     toastr.success(
                         data.message)
-                    setRoutingOnUserIcon()
+                    $('#login_register_modal').modal('hide');
+                    $('#user_icon').addClass('d-none');
+                    $('#move-dashboard').removeClass('d-none');
                 }
             })
         }
@@ -164,12 +174,6 @@
                 toastr.error(
                     value)
             });
-        }
-
-        function setRoutingOnUserIcon(params) {
-            $('#login_register_modal').modal('hide');
-            $('#user_icon').addClass('d-none');
-            $('#move-dashboard').removeClass('d-none');
         }
     </script>
 @endsection
