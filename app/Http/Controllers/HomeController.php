@@ -32,6 +32,7 @@ use ImageOptimizer;
 use Cookie;
 use Illuminate\Support\Str;
 use App\Mail\SecondEmailVerifyMailManager;
+use App\Notifications\EmailVerificationNotification;
 use App\SellerWithdrawRequest;
 use Mail;
 use App\Utility\TranslationUtility;
@@ -94,6 +95,97 @@ class HomeController extends Controller
             }
         }
         return back();
+    }
+    public function home_login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email_or_phone' => 'required',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+        try {
+
+            $user = User::whereIn('user_type', ['customer', 'seller'])->where('email', $request->email_or_phone)->orWhere('phone', $request->email_or_phone)->first();
+            if ($user != null) {
+                if (Hash::check($request->password, $user->password)) {
+                    if ($request->has('remember')) {
+                        auth()->login($user, true);
+                    } else {
+                        auth()->login($user, false);
+                    }
+                    return response()->json(['success' => true, 'message' => 'Login successfully']);
+                } else {
+                    return response()->json(['errors' => ['Invalid email or password!']]);
+                }
+            }
+
+            return response()->json(['errors' => ['Invalid email or password!']]);
+        } catch (\Throwable $th) {
+            return response()->json(['errors' => [$th->getMessage()]]);
+        }
+    }
+
+    public function home_registration(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required | email',
+            'password' => 'required ',
+            'username' => 'required ',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
+        try {
+            DB::beginTransaction();
+            $checked = User::where('email', $request->email)
+                ->whereIn('user_type', ['customer', 'seller'])
+                ->first();
+
+            if ($checked) {
+                return response()->json(['errors' => ['Email already exists!']]);
+            }
+
+            $user = new User;
+            $user->name = $request->username;
+            $user->email = $request->email;
+            $user->user_type = "customer";
+            $user->password = Hash::make($request->password);
+            $user->tenacy_id = get_tenacy_id_for_query();
+
+            DB::commit();
+            if ($user->save()) {
+                if (get_setting('email_verification') != 1 || env('APP_ENV') == 'local') {
+                    $user->email_verified_at = date('Y-m-d H:m:s');
+                } else {
+                    $user->notify(new EmailVerificationNotification());
+                }
+
+                $user->save();
+                $customer = new Customer();
+                $customer->user_id = $user->id;
+                $customer->tenacy_id = get_tenacy_id_for_query();
+                if ($customer->save()) {
+                    return response()->json(['success' => true, 'message' => 'Register successfully']);
+                }
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['errors' => [$th->getMessage()]]);
+        }
+    }
+
+    public function logout()
+    {
+        auth::logout();
+        return redirect()->route('home');
+    }
+
+    public function show_login_register_modal()
+    {
+        return view('frontend.partials.modals.modal-home-login-register')->render();
     }
 
     /**

@@ -58,6 +58,10 @@ Route::post('/users/login/cart', 'HomeController@cart_login')->name('cart.login.
 
 //Home Page
 Route::get('/', 'HomeController@index')->name('home');
+Route::post('login', 'HomeController@home_login')->name('home.login');
+Route::post('registration', 'HomeController@home_registration')->name('home.registration');
+Route::post('logout', 'HomeController@logout')->name('dashboard.logout');
+Route::get('/show_login_register_modal', 'HomeController@show_login_register_modal')->name('home.show_login_register_modal');
 
 
 Route::get('/register_seller', 'HomeController@registerSeller')->name('home.register_seller');
