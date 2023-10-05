@@ -351,4 +351,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::resource('tenants', 'TenantManagerController');
     Route::post('/tenants/status', 'TenantManagerController@updateStatus')->name('tenants.status');
     Route::get('/tenants/destroy/{id}', 'TenantManagerController@destroy')->name('tenants.destroy');
+
+    Route::group(['prefix' => 'wallet'], function () {
+        Route::get('/', 'AdminWalletController@index')->name('admin.wallet.index');
+        Route::post('/recharge', 'AdminWalletController@recharge')->name('admin.wallet.recharge');
+        Route::post('/offline-wallet-recharge-modal', 'AdminWalletController@offline_recharge_modal')->name('admin.offline_wallet_recharge_modal');
+        Route::post('/offline-wallet-recharge', 'AdminWalletController@offline_recharge')->name('admin.wallet_recharge.make_payment');
+    });
 });

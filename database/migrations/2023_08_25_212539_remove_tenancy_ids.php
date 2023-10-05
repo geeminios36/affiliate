@@ -39,6 +39,11 @@ class RemoveTenancyIds extends Migration
                 $table->dropColumn('tenacy_id');
             });
         }
+        if (Schema::hasColumn('manual_payment_methods', 'tenacy_id')) {
+            Schema::table('manual_payment_methods', function (Blueprint $table) {
+                $table->dropColumn('tenacy_id');
+            });
+        }
     }
 
     /**

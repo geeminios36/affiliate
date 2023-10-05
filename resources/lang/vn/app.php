@@ -1968,8 +1968,11 @@ return
         'Host' => 'Người quản lý',
         'Tenant Information' => 'Thông tin xưởng',
         'Tenant has been inserted successfully' => 'Xưởng đã được tạo thành công',
+        'Tenant has been inserted failure' => 'Tạo xưởng thất bại',
         'Tenant has been updated successfully' => 'Xưởng đã được cập nhật thành công',
         'Tenant has been deleted successfully' => 'Xưởng đã được xóa nhật thành công',
         'Code was taken' => 'Mã đã được sử dụng',
         'User type' => 'Nhóm người dùng',
+        'Admin wallet' => 'Quản lý ví',
+        'Tenant Wallet' => 'Thông tin ví',
 	];
