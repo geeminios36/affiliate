@@ -381,8 +381,8 @@
             tags: []
         }
 
-        function renderFilterItems() {
-            const values = getValuesFromObject()
+        function renderSelectedFilterOptions() {
+            const values = Object.values(output).flat();
             let html;
             html = values.map(value => {
                 return `<span class=" p-1 rounded-2 bg-light text-primary mx-1" data-column='' data-value=''>${value}</span>`
@@ -407,7 +407,7 @@
             }
             clearInterval(time)
             console.log('count', count)
-            renderFilterItems();
+            renderSelectedFilterOptions();
 
         })
 
@@ -435,7 +435,7 @@
             }
 
 
-            renderFilterItems();
+            renderSelectedFilterOptions();
         })
 
 
@@ -468,7 +468,8 @@
 
         function filterProduct() {
 
-            const keys = getColumnsHaveValues()
+            const keys = Object.keys(data).filter(key => data[
+                key].length > 0);
             let filter_query = ''
             for (let index = 0; index < keys.length; index++) {
                 const key = keys[index];
@@ -513,17 +514,6 @@
 
             }
             window.location.href = href
-        }
-
-
-
-        function getValuesFromObject() {
-            return Object.values(output).flat();
-        }
-
-        function getColumnsHaveValues() {
-            return Object.keys(data).filter(key => data[
-                key].length > 0);
         }
     </script>
 @endsection
