@@ -8,6 +8,7 @@
         "php": "^7.1.3",
         "anandsiddharth/laravel-paytm-wallet": "^1.0",
         "cinetpay/cinetpay-php": "^1.9",
+        "doctrine/dbal": "^3.7",
         "doctrine/inflector": "^1.1",
         "fideloper/proxy": "^4.0",
         "firebase/php-jwt": "^5.4",

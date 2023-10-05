@@ -805,6 +805,14 @@
                                 <span class="aiz-side-nav-arrow"></span>
                             </a>
                             <ul class="aiz-side-nav-list level-2">
+                                @if(is_host())
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('admin.wallet.index') }}"
+                                       class="aiz-side-nav-link {{ areActiveRoutes(['admin.wallet.index']) }}">
+                                        <span class="aiz-side-nav-text">{{ translate('Admin wallet') }}</span>
+                                    </a>
+                                </li>
+                                @endif
                                 <li class="aiz-side-nav-item">
                                     <a href="{{ route('manual_payment_methods.index') }}"
                                         class="aiz-side-nav-link {{ areActiveRoutes(['manual_payment_methods.index', 'manual_payment_methods.create', 'manual_payment_methods.edit']) }}">

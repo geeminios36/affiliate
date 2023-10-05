@@ -2,11 +2,29 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
-class ManualPaymentMethod extends Model
+class Transaction extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'user_type',
+        'wallet_id',
+        'photo',
+        'attribute', //Enum PaymentAction
+        'payment_method', // PaymentMethod
+        'request_amount',
+        'available_balance',
+        'details',
+        'description',
+        'status',
+        'reject_reason',
+        'created_at',
+        'updated_at',
+        'tenacy_id',
+    ];
+
     /**
      * The "booting" method of the model.
      *
@@ -16,13 +34,12 @@ class ManualPaymentMethod extends Model
     {
         parent::boot();
 
-//        static::addGlobalScope(new \App\Scopes\TenacyScope);
+        static::addGlobalScope(new \App\Scopes\TenacyScope);
 
         // Doc: https://viblo.asia/p/su-dung-model-observers-trong-laravel-oOVlYeQVl8W
         static::saving(function ($model) {
-//            $model->tenacy_id = get_tenacy_id_for_query();
+            $model->tenacy_id = get_tenacy_id_for_query();
         });
-        
     }
 
     /**
@@ -37,6 +54,8 @@ class ManualPaymentMethod extends Model
 
         return $query;
     }
-    
-    protected $guarded = [];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

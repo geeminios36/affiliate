@@ -35,7 +35,18 @@ class Wallet extends Model
 
         // Doc: https://viblo.asia/p/su-dung-model-observers-trong-laravel-oOVlYeQVl8W
         static::saving(function ($model) {
-            $model->tenacy_id = get_tenacy_id_for_query();
+            $model->tenacy_id = !empty($model->tenacy_id) ? $model->tenacy_id : get_tenacy_id_for_query();
         });
     }
+
+    protected $fillable = [
+        'user_id',
+        'amount',
+        'payment_method',
+        'payment_details',
+        'approval',
+        'offline_payment',
+        'reciept',
+        'tenacy_id',
+    ];
 }

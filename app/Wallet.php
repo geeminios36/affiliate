@@ -2,11 +2,14 @@
 
 namespace App;
 
+use App\Traits\GenerateCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class Wallet extends Model
 {
+    use GenerateCode;
+
     protected $fillable = [
         'user_id',
     ];

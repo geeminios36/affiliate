@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Addon;
 use App\Models\Tenant;
+use App\Models\Wallet;
 use App\Staff;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class TenantManagerController extends Controller
@@ -60,24 +62,19 @@ class TenantManagerController extends Controller
         $tenant->save();
 
         if(!empty($tenant->host_id)) {
-            User::where('id', $tenant->host_id)->update([
-                'tenacy_id' => $tenant->code
-            ]);
-            Staff::where('user_id', $tenant->host_id)->update([
-                'tenacy_id' => $tenant->code
-            ]);
-            Addon::create([
-                'name' => 'Offline Payment',
-                'unique_identifier' => 'offline_payment',
-                'version' => '1.0',
-                'activated' => 1,
-                'image' => 'offline_banner.jpg',
-                'tenacy_id' => $tenant->code,
-            ]);
-        }
+            DB::beginTransaction();
+            try {
+                $this->triggerCreateTenant($tenant);
 
-        flash(translate('Tenant has been inserted successfully'))->success();
-        return redirect()->route('tenants.index');
+                DB::commit();
+                flash(translate('Tenant has been inserted successfully'))->success();
+                return redirect()->route('tenants.index');
+            } catch (\Exception $exception) {
+                DB::rollBack();
+                flash(translate('Tenant has been inserted failure'))->success();
+                return redirect()->back();
+            }
+        }
     }
 
     /**
@@ -160,5 +157,33 @@ class TenantManagerController extends Controller
             return 1;
         }
         return 0;
+    }
+
+    private function triggerCreateTenant(Tenant  $tenant)
+    {
+        User::where('id', $tenant->host_id)->update([
+            'tenacy_id' => $tenant->code
+        ]);
+        Staff::where('user_id', $tenant->host_id)->update([
+            'tenacy_id' => $tenant->code
+        ]);
+        Addon::create([
+            'name' => 'Offline Payment',
+            'unique_identifier' => 'offline_payment',
+            'version' => '1.0',
+            'activated' => 1,
+            'image' => 'offline_banner.jpg',
+            'tenacy_id' => $tenant->code,
+        ]);
+        Wallet::create([
+            'user_id' => $tenant->host_id,
+            'amount' => 0,
+            'payment_method' => 'Thanh toán chuyển khoản',
+            'payment_details' => '',
+            'approval' => 1,
+            'offline_payment' => 1,
+            'reciept' => 1,
+            'tenacy_id' => $tenant->code,
+        ]);
     }
 }
